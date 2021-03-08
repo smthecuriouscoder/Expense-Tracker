@@ -1,0 +1,14 @@
+.optionOr{
+    margin: 8px 0;
+}
+
+.optionLogIn{
+    display: flex;
+    justify-content: center;    
+}
+
+.separateLogIn{
+    background-color: rgb(153, 152, 152);
+    width: 30%;
+    margin: 18px 3px;
+}

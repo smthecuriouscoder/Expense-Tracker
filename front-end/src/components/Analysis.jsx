@@ -1,0 +1,138 @@
+import React, { Component } from 'react';
+import Drawer from './Drawer';
+import DailyData from './daily-data';
+import { Typography, AppBar, Toolbar, CircularProgress } from '@material-ui/core';
+import cssstyles from '../styles/Analysis.module.css';
+import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from './apiurl.jsx';
+
+const drawerWidth = 190;
+
+const styles = theme => ({
+    root: {
+      display: 'flex',
+    },
+    appBar: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      backgroundColor: 'hsl(120, 82%, 33%)'
+    },
+    toolbar: theme.mixins.toolbar,
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(5),
+    },
+});
+
+let source;
+
+class Analysis extends Component {
+    constructor(props) {
+      super(props)
+    
+      this.state = {
+        loading: true,
+        income: [],
+        expenses: [],
+        estimatedSavings: []
+      };
+
+      source = axios.CancelToken.source();
+    }
+    
+    async componentDidMount(){
+      const [
+        incomeData, 
+        expenseData, 
+        estimatedSavingsData
+      ] = await axios.all([
+          axios.post(
+            incomeDialogGet,
+            {
+              email : this.props.location.state.email, 
+              type : 'Income'
+            },
+            {
+              cancelToken: source.token
+            }
+          ).catch((e) => {
+            console.log(e);
+          }), 
+          axios.post(
+            expenseDialogGet,
+            {
+              email : this.props.location.state.email, 
+              type : 'Expense'
+            },
+            {
+              cancelToken: source.token
+            }
+          ).catch((e) => {
+            console.log(e);
+          }), 
+          axios.post(
+            estimatedSavingsDialogGet,
+            {
+              email : this.props.location.state.email,
+              type : 'Target Savings'
+            },
+            {
+              cancelToken: source.token
+            }
+          ).catch((e) => {
+            console.log(e);
+          })
+        ])
+
+        if(incomeData !== undefined && expenseData !== undefined && estimatedSavingsData !== undefined){
+          this.setState({
+            income: incomeData.data.income,
+            expenses: expenseData.data.expenses,
+            estimatedSavings: estimatedSavingsData.data.estimatedSavings,
+            loading: false
+          })
+        }
+      }
+
+    render() {
+	      const { classes } = this.props;
+        const { income, expenses, estimatedSavings } = this.state;
+        return (
+          <div className={classes.root} >
+	          <AppBar position="fixed" className={classes.appBar}>
+        	    <Toolbar>
+        	      <Typography variant="h5" noWrap className={cssstyles.analysisHeading}>Analysis</Typography>
+        	    </Toolbar>
+        	  </AppBar>
+            
+		        <Drawer info={this.props.location.state} highlighted={1} />
+
+		        {
+              this.state.loading ? (
+              <div style={{
+                display: 'flex', 
+                justifyContent: 'center', 
+                height: '100vh',  
+                width: '100%'
+               }}
+              > 
+                <CircularProgress style={{alignSelf: 'center'}} /> 
+              </div> ) : (
+              <main className={classes.content}>
+                <div className={classes.toolbar} />
+                <DailyData income={income} expenses={expenses} estimatedSavings={estimatedSavings} />
+		          </main>)
+            }
+          </div>
+        );
+    }
+
+    componentWillUnmount() {
+      if (source) {
+        source.cancel("Dashboard Component got unmounted");
+      }
+    }
+}
+
+export default withStyles(styles)(Analysis);
