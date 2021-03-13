@@ -7,60 +7,67 @@ const client = require('../../client.js');
 let transporter = nodemailer.createTransport({ 
     service: 'gmail', 
     auth: { 
-        user: 'email', 
-        pass: 'password'
+        user: '', 
+        pass: ''
     } 
 });
 
 router.post('/sendEmail', (req, res, next) => {
-    // var name = req.body.name
-    var email = req.body.email
+    let email = req.body.email;
+    let transaction = req.body.transaction;
+
+    let message = (
+        '<h1>Monthly Report</h1>' +
+        '<p>Here is the record of your income and expenses for this month: </p>' +
+        '<table style="border: 1px solid black; border-collapse: collapse;">' +
+            '<thead>' +
+                '<tr>' +
+                    '<th style="border: 1px solid black; border-collapse: collapse;"> Type </th>' +
+                    '<th style="border: 1px solid black; border-collapse: collapse;"> Date </th>'  +
+                    '<th style="border: 1px solid black; border-collapse: collapse;"> Amount </th>'  +
+                    '<th style="border: 1px solid black; border-collapse: collapse;"> Category </th>'  +
+                    '<th style="border: 1px solid black; border-collapse: collapse;"> Description </th>'  +
+                    '<th style="border: 1px solid black; border-collapse: collapse;"> Type of Account</th>'  +
+                '</tr>' +
+            '</thead>'
+    ); 
+      
+    for(const { type, date, amount, category, description, account } of transaction) {
+         message += (
+           '<tr>' +
+                '<td  style="border: 1px solid black; border-collapse: collapse;">' + type + '</td>' +
+                '<td style="border: 1px solid black; border-collapse: collapse;">' + date.split(' ').slice(0, 4).join(' ') + '</td>' +
+                '<td style="border: 1px solid black; border-collapse: collapse;">' + 'Rs. ' + +amount + '</td>' +
+                '<td style="border: 1px solid black; border-collapse: collapse;">' + category + '</td>' +
+                '<td style="border: 1px solid black; border-collapse: collapse;">' + description + '</td>' +
+                '<td style="border: 1px solid black; border-collapse: collapse;">' + account + '</td>' +
+          '</tr>'
+         );
+    }
+      
+    message +=  '</table>' +
+                '<br />' +
+                '<span style="font-weight: bold;">Regards,</span> <br />' +
+                '<span>Expense Tracker</span>';
 
     var mail = {
-      from: 'sagarmittal555@gmail.com',
+      from: '',
       to: email,
       subject: 'Monthly Report',
-      html:
-       `<h2>Monthly Report</h2>
-       <p>Here is the record of your income and expenses: </p>
-       <table>
-        <thead>
-            <tr>
-                <th>Type</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Type of Account</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Income</td>
-                <td>Rs. 1000</td>
-                <td>Salary</td>
-                <td>Personal</td>
-            </tr>
-            <tr>
-                <td>Expense</td>
-                <td>Rs. 100</td>
-                <td>Fruits</td>
-                <td>Personal</td>
-            </tr>
-        </tbody
-       </table>
-       `,
-    }
+      html: message,
+    };
   
     transporter.sendMail(mail, (err, data) => {
       if (err) {
         res.json({
-          status: 'fail'
+          status: 'Message not sent'
         })
       } else {
         res.json({
-         status: 'success'
+         status: 'Message Sent'
         })
       }
-    })
+    });
 })
 
 router.get('/', (req, res, next) => {
@@ -287,7 +294,7 @@ async function getExpense(object) {
     console.log(object.type, 'object.type');
     const cursor = await client.client.db("expense_tracker").collection("expense_collection").find({ type: object.type, created_by: object.created_by });
     const results = await cursor.toArray();
-
+    
     return results;
 }
 

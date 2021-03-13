@@ -106,7 +106,9 @@
   flex-basis: 332px;
   min-height: 475px;
   margin: 10px;
+  border-radius: 20px !important;
   transition: all 1s !important; 
+  box-shadow: inset -16px 20px 14px -7px rgb(0 0 0 / 20%), inset -14px 10px 36px 3px rgb(0 0 0 / 14%), inset -16px 20px 44px 8px rgb(0 0 0 / 12%) !important;
 }
 
 .card:hover{

@@ -5,7 +5,7 @@ import Banner from './homepage/banner';
 import About from './homepage/about';
 import Footer from './homepage/footer';
 import styles from '../styles/Homepage.module.css';
-import wallet from '../undraw_wallet_aym5.svg';
+import wallet from '../assets/undraw_wallet_aym5.svg';
 
 const items = ["Home","About","Contact Us","Log In"];
 const itemObjects = items.map((item,i) => ({ id: i, navItem: item }));
@@ -28,7 +28,9 @@ class HomePage extends Component {
           <Banner firstTitle="Expense" secondTitle="Tracker" handleLogInClick={this.handleLogInClick} />
 	        <div style={{display: 'flex', justifyContent: 'space-evenly', flexWrap: 'wrap', width: '100%'}}>
 	          <h1 style={{ width: '450px', padding: '25px'}} >Track your Expenses and Be a Money Saver</h1>
-	          <img src={wallet} alt="wallet" style={{ width: '480px'}} />
+            <div style={{width: '500px', padding: '20px'}}>
+	            <img src={wallet} alt="wallet" style={{ width: '100%'}} />
+            </div>
 	        </div>
 	        <About />
           <Footer />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DisplayTable from './DisplayTable';
+import { Tooltip } from '@material-ui/core';
 import { getData, incomeExpenseArrayFx } from './getData';
 import { incomeDialog } from './apiurl.jsx';
 import DateFnsUtils from '@date-io/date-fns';
@@ -29,17 +30,6 @@ class FilterTable extends Component {
         }
         return null;
     }
-    
-    // componentDidUpdate(prevProps) {
-    //     // Typical usage (don't forget to compare props):
-    //     if (this.props.showDate !== prevProps.showDate) {
-    //       this.setState({
-    //           date: this.props.showDate ? this.props.showDate : this.state.date,
-    //           filterArray: getData(this.props.income, this.props.expenses, this.props.showDate ? this.props.showDate : this.state.date)
-    //       })
-    //     }
-    //     console.log("ReRender")
-    //   }
 
     handleDateChange = date => {
         flag = true;
@@ -72,7 +62,9 @@ class FilterTable extends Component {
         return (
             <>
                 <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'baseline'}}>
-                    <FilterListOutlinedIcon />
+                    <Tooltip title="Filter">
+                        <FilterListOutlinedIcon />
+                    </Tooltip>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker
                             margin="dense"
@@ -81,7 +73,7 @@ class FilterTable extends Component {
                             label="Year and Month"
                             value={this.state.date}
                             onChange={this.handleDateChange}
-                            inputVariant="standard"
+                            inputVariant="outlined"
                             animateYearScrolling
                             disableFuture
                             openTo="year"

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styles from '../styles/Login.module.css';
 import SignUpForm from './Signupform';
 import SignInForm from './Signinform';
+import wave from '../assets/wave.png';
 
 class LogIn extends Component {
   constructor(props){
@@ -24,13 +25,17 @@ class LogIn extends Component {
 
   render() {
     return (
-        <div className={styles.outermostContainer} >
+      <>
+        <img src={wave} alt="bg" style={{position: 'fixed', zIndex:'-1', height: '100%'}} />
+        <div className={styles.outermostContainer}>
           <h1 className={styles.outermostContainerHead}>Expense Tracker</h1>
           <div className={styles.container}>
             <SignUpForm rotateForm={this.changeForm} handleParentCallBack={this.handleCall} status={this.state.isLoggedIn} btn={ this.state.isLoggedIn ? styles.rotatefront : styles.rotateback  } />
             <SignInForm rotateForm={this.changeForm} handleParentCallBack={this.handleCall} status={this.state.isLoggedIn} btn={ this.state.isLoggedIn ? styles.rotateback : styles.rotatefront } />
           </div>
         </div>
+        {/* <img src={wave} alt="wavy background" style={{position: 'absolute', bottom: 0, zIndex: '-1'}} /> */}
+        </>
     );
   }
 }

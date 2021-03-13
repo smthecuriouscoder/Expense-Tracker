@@ -6,7 +6,9 @@ import FooterLogIn from "./Footerlogin";
 import styles from '../styles/Login.module.css';
 import {motion} from 'framer-motion';
 import axios from 'axios';
-import { login } from './apiurl.jsx'
+import { login } from './apiurl.jsx';
+import profile from '../assets/undraw_profile_pic_ic5t.svg';
+import bg from '../assets/bg.svg';
 
 let errors;
 
@@ -45,8 +47,10 @@ class SignUpForm extends Component{
         email: profileObj.email,
         profilePhoto: profileObj.imageUrl,
         isSignedInFromGoogle: true
+      }, () => {
+          this.props.handleParentCallBack(this.state.isSignedInFromGoogle, profileObj);
       });
-      this.props.handleParentCallBack(this.state.isSignedInFromGoogle, profileObj);
+
     }
 
     handleButton =  () => {
@@ -112,9 +116,9 @@ class SignUpForm extends Component{
             password: password
           }
           // const token = Buffer.from(`${email}:${password}`).toString('base64')
-          axios.post(login,userDetails).then( res => {
+          axios.post(login, userDetails).then( res => {
               console.log(res.data)
-              localStorage.setItem("token",res.data.token)
+              localStorage.setItem("token", res.data.token)
           
               this.setState(() => {
                 return({
@@ -137,12 +141,14 @@ class SignUpForm extends Component{
         return(
             <div className={`${styles.signupblock} ${this.props.btn}`}>
                 <div className={`${styles.instructsignup}`}>
-                    <motion.h1 initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} transition={{duration: 1}}>Welcome!</motion.h1>
-                    <motion.p initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} transition={{duration: 1}} className={styles.desc}>Enter your personal details and start with us.</motion.p>
+                    <motion.h1 initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} transition={{duration: 1}}>WELCOME!</motion.h1>
+                    <img src={bg} alt="background" style={{width: '100%', height: '50%'}} />
+                    <motion.h4 initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} transition={{duration: 1}} className={styles.desc}>Enter your personal details and start with us.</motion.h4>
                     <motion.button initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} whileTap={{scale: 1.3}} onClick={this.handleButton}>Sign Up</motion.button>
                 </div>
                 
                 <div className={`${styles.content}`}>
+                    <img src={profile} alt="wallet" style={{ width: '80px'}} />
                     <h1>Sign in</h1>
                     <form className={styles.signinform} onSubmit={this.handleSubmit} >
 

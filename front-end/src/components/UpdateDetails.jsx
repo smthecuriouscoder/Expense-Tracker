@@ -33,6 +33,8 @@ const UpdateDetails = ({ className, userDetails, ...rest }) => {
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
+    
     if(values.name === '' || values.email === ''){
       alert("Please fill both the fields");
     }

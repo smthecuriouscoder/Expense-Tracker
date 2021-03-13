@@ -139,11 +139,12 @@ class IncomeExpenseChart extends Component{
     }
     
     return (
-      <Doughnut
-        data={data}
-        width={40}
-        options={options}
-      />
+      <div style={{width: '90%', height: '100%', margin: '0 auto'}}>
+        <Doughnut
+          data={data}
+          options={options}
+        />
+      </div>
     );
   }
 }

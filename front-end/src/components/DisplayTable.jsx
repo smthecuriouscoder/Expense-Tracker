@@ -11,6 +11,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+      backgroundColor: theme.palette.action.hover,
+  },
+}))(TableRow);
+
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -21,16 +27,13 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-      backgroundColor: theme.palette.action.hover,
-  },
-}))(TableRow);
-
 
 const useStyles = makeStyles({
   table: {
     minWidth: 700,
+  },
+  container: {
+    maxHeight: 500,
   },
 });
 
@@ -43,8 +46,8 @@ function DisplayTable(props) {
   }
   
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="customized table">
+    <TableContainer component={Paper} className={classes.container}>
+      <Table stickyHeader className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Type</StyledTableCell>

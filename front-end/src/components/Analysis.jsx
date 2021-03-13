@@ -6,6 +6,8 @@ import cssstyles from '../styles/Analysis.module.css';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from './apiurl.jsx';
+import { filterArrayByType } from './getData.js';
+import Filters from './Filters';
 
 const drawerWidth = 190;
 
@@ -35,7 +37,8 @@ class Analysis extends Component {
         loading: true,
         income: [],
         expenses: [],
-        estimatedSavings: []
+        estimatedSavings: [],
+        account: 'All Accounts'
       };
 
       source = axios.CancelToken.source();
@@ -95,9 +98,25 @@ class Analysis extends Component {
         }
       }
 
+    handleFilterArrayByType = (type) => {
+      this.setState({
+        account: type
+      })
+    }
+
     render() {
 	      const { classes } = this.props;
         const { income, expenses, estimatedSavings } = this.state;
+        let filteredIncome = income;
+        let filteredExpenses = expenses;
+        let filteredEstimatedSavings = estimatedSavings;
+
+        if(this.state.account !== 'All Accounts'){
+          filteredIncome = filterArrayByType(income, this.state.account);
+          filteredExpenses = filterArrayByType(expenses, this.state.account);
+          filteredEstimatedSavings = filterArrayByType(estimatedSavings, this.state.account)
+        }
+
         return (
           <div className={classes.root} >
 	          <AppBar position="fixed" className={classes.appBar}>
@@ -121,7 +140,8 @@ class Analysis extends Component {
               </div> ) : (
               <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <DailyData income={income} expenses={expenses} estimatedSavings={estimatedSavings} />
+                <Filters account={this.state.account} handleFilterArrayByType={this.handleFilterArrayByType} />
+                <DailyData income={filteredIncome} expenses={filteredExpenses} estimatedSavings={filteredEstimatedSavings} />
 		          </main>)
             }
           </div>
@@ -130,7 +150,7 @@ class Analysis extends Component {
 
     componentWillUnmount() {
       if (source) {
-        source.cancel("Dashboard Component got unmounted");
+        source.cancel("Analysis Component got unmounted");
       }
     }
 }

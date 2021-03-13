@@ -10,13 +10,13 @@ class DailyData extends Component {
     super(props)
   
     this.state = {
-       date: new Date().toGMTString()
+       date: new Date().toUTCString()
     }
   }
   
   handleDateChange = date => {
     this.setState({
-        date: date ? date.toGMTString() : null
+        date: date ? date.toUTCString() : null
     })
   }
 
@@ -99,6 +99,7 @@ class DailyData extends Component {
     }
   
     const options = {
+      maintainAspectRatio: false,
       scales: {
         yAxes: [
           {
@@ -123,35 +124,58 @@ class DailyData extends Component {
           }
         ]
       },
+      tooltips: {
+        callbacks: {
+          title: (tooltipItem, data) => {
+            return tooltipItem[0].xLabel + ' ' + this.state.date.substr(8,8);
+          },
+          label: (tooltipItem, data) => {
+              var label = data.datasets[tooltipItem.datasetIndex].label;
+              if (label) {
+                  label += ': Rs. ';
+              }
+              label += tooltipItem.yLabel;
+              return label;
+          }
+        }
+      }
     }
 
     return(
-      <div>
-        <Card raised style={{
+      <div style={{marginTop: '20px'}}>
+        <Card raised elevation={15} style={{
                               display: "flex",
-                              flexDirection: "column",
-                              alignItems: "flex-end"
-                            }} > 
-          
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DatePicker
-                  margin="dense"
-                  views={["year", "month"]}
-                  name="date"
-                  label="Year and Month"
-                  value={this.state.date}
-                  onChange={this.handleDateChange}
-                  inputVariant="standard"
-                  animateYearScrolling
-                  disableFuture
-                  openTo="year"
-                  autoOk
-                  style={{margin: '16px'}}
-                />
-            </MuiPickersUtilsProvider>
+                              flexDirection: "column"
+                            }} >
         
           <CardContent style={{alignItems: 'center', width: '100%'}}>
-            <Line data={data} options={options} width={500} />
+            <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    flexWrap: 'wrap',
+                    margin: "0 30px"
+                }}
+            > 
+              <h2>Monthly Record</h2>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <DatePicker
+                      margin="dense"
+                      views={["year", "month"]}
+                      name="date"
+                      label="Year and Month"
+                      value={this.state.date}
+                      onChange={this.handleDateChange}
+                      inputVariant="outlined"
+                      animateYearScrolling
+                      disableFuture
+                      openTo="year"
+                      autoOk
+                    />
+              </MuiPickersUtilsProvider>
+            </div>
+            <div style={{width: "90%", height: '50vh', margin: '0 auto'}}>
+              <Line data={data} options={options} />
+            </div>
           </CardContent>
         </Card>
       </div>

@@ -1,27 +1,41 @@
 import React, { Component } from 'react';
 import { incomeExpenseArrayFx } from './getData';
 import { Doughnut } from 'react-chartjs-2';
+import { expenseCategories, resetCategories } from '../constants/categories';
 
-let expenseAmount;
+//let expenseAmount;
 
-function getExpenseAmount(expensesArray) {
-  let expenseAmountArray = [];
+// function getExpenseAmount(expensesArray) {
+//   let expenseAmountArray = [];
   
-  for(let i = 0; i < expensesArray.length; i++) {
-    const index = expensesArray.findIndex( innerExpense => innerExpense.category === expensesArray[i].category);
-    if(index !== i){
-      let amount = +expensesArray[index].amount + +expensesArray[i].amount;
-      expenseAmountArray.splice(index,1,amount)
-      expensesArray.splice(i,1)
-      i--;
-      expensesArray[index].amount = amount.toString(); 
-    }
-    else{
-      expenseAmountArray.push(+expensesArray[i].amount);
-    }
-  }
+//   for(let i = 0; i < expensesArray.length; i++) {
+//     const index = expensesArray.findIndex( innerExpense => innerExpense.category === expensesArray[i].category);
+//     if(index !== i){
+//       let amount = +expensesArray[index].amount + +expensesArray[i].amount;
+//       expenseAmountArray.splice(index,1,amount)
+//       expensesArray.splice(i,1)
+//       i--;
+//       expensesArray[index].amount = amount.toString(); 
+//     }
+//     else{
+//       expenseAmountArray.push(+expensesArray[i].amount);
+//     }
+//   }
 
-  return expenseAmountArray;
+//   return expenseAmountArray;
+// }
+
+function getExpenseCategories(expensesArray){
+  resetCategories();
+  expensesArray.forEach((expense) => {
+    const category = expenseCategories.find((c) => c.type === expense.category)
+
+    if(category){
+      category.amount += +expense.amount
+    }
+  })
+
+  return expenseCategories.filter((c) => c.amount > 0)
 }
 
 class ExpenseChart extends Component{
@@ -39,33 +53,35 @@ class ExpenseChart extends Component{
     }
   }
 
-  getRandomColor = () => {
-    var randomColors = [];
+  // getRandomColor = () => {
+  //   var randomColors = [];
     
-    for(let i = 0; i < expenseAmount.length; i++) {
-      randomColors.push("#" + Math.floor(Math.random()*16777215).toString(16))
-    }
+  //   for(let i = 0; i < expenseAmount.length; i++) {
+  //     randomColors.push("#" + Math.floor(Math.random()*16777215).toString(16))
+  //   }
 
-    return randomColors;
-  }
+  //   return randomColors;
+  // }
 
   render() {
-    const expenses = this.state.expensesArray.map(expense => expense.category).filter((expense, i, a) => a.indexOf(expense) === i);
+    //const expenses = this.state.expensesArray.map(expense => expense.category).filter((expense, i, a) => a.indexOf(expense) === i);
     
-    expenseAmount = getExpenseAmount(this.state.expensesArray
-                                          .map(expense => ({ 
-                                                category: expense.category, 
-                                                amount: expense.amount 
-                                              })
-                                          ));
-    console.log("Expenses Category Amount", expenseAmount)
+    // expenseAmount = getExpenseAmount(this.state.expensesArray
+    //                                       .map(expense => ({ 
+    //                                             category: expense.category, 
+    //                                             amount: expense.amount 
+    //                                           })
+    //                                       ));
+ 
+    const filteredCategories = getExpenseCategories(this.state.expensesArray);
+    
     const data = {
-	    labels: expenses,
+	    labels: filteredCategories.map((c) => c.type),
       datasets: [
             {
                 label: "Expenses Chart",
-                data: expenseAmount,
-                backgroundColor: this.getRandomColor(),
+                data: filteredCategories.map((c) => c.amount),
+                backgroundColor: filteredCategories.map((c) => c.color),
                 borderColor: Array(this.state.expensesArray.length).fill("#000"),
                 borderWidth: Array(this.state.expensesArray.length).fill(1)
             }
@@ -84,14 +100,14 @@ class ExpenseChart extends Component{
         }
       },
     }
-    console.log("Expense Category Background Colors", data.datasets[0].backgroundColor)
     
     return (
-      <Doughnut
-        data={data}
-        width={40}
-        options={options}
-      />
+      <div style={{width: '90%', height: '100%', margin: '0 auto'}}>
+        <Doughnut
+          data={data}
+          options={options}
+        />
+      </div>
     );
   }
 }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Select, MenuItem, Tooltip } from '@material-ui/core';
 import FilterListOutlinedIcon from '@material-ui/icons/FilterListOutlined';
 
 class Filters extends Component{
@@ -28,7 +27,9 @@ class Filters extends Component{
   render() {
 	return (
 	  <div style={{display: 'flex', flex: '1', alignItems: 'center', marginRight: '100px'}}>
-		<FilterListOutlinedIcon />
+		<Tooltip title="Filter"> 
+			<FilterListOutlinedIcon />
+		</Tooltip>
 	    <Select
 			variant="outlined"
 			style={{margin: '0 10px'}}
@@ -40,16 +41,6 @@ class Filters extends Component{
 			<MenuItem value='Personal'>Personal</MenuItem>
 			<MenuItem value='Business'>Business</MenuItem>
        	</Select>
-		{/* <Select
-			variant="outlined"
-			name='duration'
-			value={this.state.duration}
-			onChange={this.handleChange}
-		>
-			<MenuItem value='weekly'>Weekly</MenuItem>
-			<MenuItem value='monthly'>Monthly</MenuItem>
-			<MenuItem value='yearly'>Yearly</MenuItem>
-		</Select> */}
 	   </div>
 	);
   }

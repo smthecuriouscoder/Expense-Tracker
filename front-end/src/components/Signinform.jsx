@@ -9,7 +9,9 @@ import {motion} from 'framer-motion';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import axios from 'axios';
-import { signup } from './apiurl.jsx'
+import { signup } from './apiurl.jsx';
+import profile from '../assets/undraw_profile_pic_ic5t.svg';
+import bg from '../assets/bg.svg';
 
 let errors;
 const emailRegex = RegExp(
@@ -48,12 +50,14 @@ class SignInForm extends Component{
 
     handleCallback = (profileObj) => {
 	    this.setState({
-        name: profileObj.name, 
+        // name: profileObj.name, 
         email: profileObj.email, 
         profilePhoto: profileObj.imageUrl,
         isSignedInFromGoogle: true
+      }, () => {
+        this.props.handleParentCallBack(this.state.isSignedInFromGoogle, profileObj);
       });
-      this.props.handleParentCallBack(this.state.isSignedInFromGoogle, profileObj);
+      
     }
 
     handleButton = () => {
@@ -192,12 +196,14 @@ class SignInForm extends Component{
             <div className={`${styles.signinblock} ${this.props.status ? styles.frontblock : ''} ${this.props.btn}`}>
 
               <div className={`${styles.instructlogin}` }>
-                  <h1>Welcome Back!</h1>
-                  <p className={styles.desc}>Let's have a watch on the expenses</p>
+                  <h1>WELCOME BACK!</h1>
+                  <img src={bg} alt="background" style={{width: '100%', height: '50%'}} />
+                  <h4 className={styles.desc}>Let's have a watch on the expenses</h4>
                   <motion.button whileTap={{scale: 1.3}} onClick={this.handleButton}>Sign In</motion.button>
               </div>
 
               <div className={`${styles.content1}`}>
+                  <img src={profile} alt="wallet" style={{ width: '80px'}} />
                   <h1>Create Account</h1>
 
                   <form className={styles.signupform} onSubmit={this.handleSubmit} >

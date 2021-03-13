@@ -17,7 +17,7 @@ class EstimatedSavingsDialog extends Component {
       open: props.modalStatus,
       alertOpen: false,
       form: {
-	      date: new Date().toGMTString(),
+	      date: new Date().toUTCString(),
     	  amount: 0,
     	  account: 'Personal'
       }
@@ -63,7 +63,7 @@ class EstimatedSavingsDialog extends Component {
 	  ...this.state,
 	  form: {
 	    ...this.state.form,
-	    date: date.toGMTString()
+	    date: date.toUTCString()
 	  }
   	})
   }
@@ -82,8 +82,10 @@ class EstimatedSavingsDialog extends Component {
             return (accumulator += currentValue ? parseInt(currentValue.amount) : 0)
         }, 0)
     ) {
-      axios.post(estimatedSavingsDialog,{form: this.state.form, email: this.props.email }).then( res => {
-        console.log(res.data);
+      axios.post(estimatedSavingsDialog, {
+        form: this.state.form, 
+        email: this.props.email 
+      }).then( res => {
         savingsObject = this.state.form;
         this.handleClose();
       })

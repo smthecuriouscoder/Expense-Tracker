@@ -79,7 +79,7 @@ function CardCollection({ income, expenses, estimatedSavings }){
 
 			<Card raised elevation={23} className={cssstyles.card} style={{flexGrow: '5'}}>
 				<CardContent className={cssstyles.cardContent}>
-					<h1 style={{textAlign: 'center'}}>Expenses</h1>
+					<h1 style={{textAlign: 'center'}}>CategoryWise Expenses</h1>
 					<CallExpChart expensesArray={expenses} />
 				</CardContent>
 			</Card>

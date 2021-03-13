@@ -1,5 +1,5 @@
 import React from 'react';
-import money from '../../Money_preview_rev_1.png';
+import money from '../../assets/Money_preview_rev_1.png';
 import ReactTooltip from 'react-tooltip';
 import {motion} from 'framer-motion';
 import styles from '../../styles/Homepage.module.css';

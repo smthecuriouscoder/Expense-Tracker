@@ -52,7 +52,6 @@
     align-items: center;
     width: 100%;
     padding: 90px 0;
-    padding-left: 50px;
 }
 
 .heading{
@@ -137,6 +136,10 @@
     min-height: 10rem;
     padding: 20px;
     width: 100%;
+}
+
+.address{
+    margin: 5px;
 }
 
 .footerinfo a{

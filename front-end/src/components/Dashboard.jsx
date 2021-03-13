@@ -15,7 +15,8 @@ import { green, red } from '@material-ui/core/colors';
 import axios from 'axios';
 import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from './apiurl.jsx';
 import { filterArrayByType } from './getData.js';
-import { sendEmail } from './apiurl.jsx';
+import Notifier from './Notifier';
+//import { sendEmail } from './apiurl.jsx';
 
 const styles = theme => ({
   root: {
@@ -28,6 +29,12 @@ const styles = theme => ({
   },
   header: {
     display: 'flex',
+  },
+  circularProgressContainer: {
+	display: 'flex', 
+	justifyContent: 'center', 
+	height: '100vh',  
+	width: '100%'
   },
   containedGreen: {
     color: theme.palette.getContrastText(green[500]),
@@ -61,6 +68,7 @@ class DashBoard extends Component{
 			showSavingsModal: false,
 			showExpenseModal: false,
 			showSnack: false,
+			showSuccessSnack: false,
 			loading: true,
 			income: [],
 			expenses: [],
@@ -129,10 +137,11 @@ class DashBoard extends Component{
     handleIncomeCallback = (incomeObject) => {				//for adding the details to the income array
 		incomeDetails = incomeObject;
 		showDate = incomeDetails ? incomeDetails.date : null;
-		
+	
 		incomeDetails ? 
 		this.setState({
 			showIncomeModal: false,
+			showSuccessSnack: true,
 			income: [...this.state.income, incomeDetails]
 		}) : this.setState({showIncomeModal: false}) 
     }
@@ -149,17 +158,26 @@ class DashBoard extends Component{
     handleExpenseCallback = (expenseObject) => {			//for adding the details to the expense array
 		expenseDetails = expenseObject;
 		showDate = expenseDetails ? expenseDetails.date : null;
+
 		expenseDetails ? 
 		this.setState({
 			showExpenseModal: false,
+			showSuccessSnack: true,
 			expenses: [...this.state.expenses, expenseDetails]
 		}) : this.setState({showExpenseModal: false})
     }
 
-    handleIncomeClick = () => {					//for showing the income dialog
+    handleIncomeClick = () => {			//for showing the income dialog
 		this.setState({
 			showIncomeModal: true
 		});
+
+		// axios.post(sendEmail,{
+		// 	email: this.props.location.state.email,
+		// 	transaction: getData(this.state.income, this.state.expenses, new Date())
+		// }).then( res => {
+		// 	console.log(res.data)
+		// })
     }
 
     handleSavingsClick = () => {				//for showing the target savings dialog
@@ -211,18 +229,26 @@ class DashBoard extends Component{
 			showSnack: false
 		});
     }
+
+	handleSuccessSnackOpen = () => {
+		this.setState({
+			showSuccessSnack: false
+		})
+	}
   
     handleLogout= () => {
 		this.setState({
 			isLoggedIn: false
 		});
+		this.props.handleLogInStatus(false);
     }
 
 	handleLogoutSuccess = (res) => {
         this.setState({
             isLoggedIn: false
-        });
-		this.props.handleLogInStatus(false);
+        }, () => {
+			this.props.handleLogInStatus(false);
+		});
     }
 
 	handleFilterArrayByType = (type) => {
@@ -272,9 +298,10 @@ class DashBoard extends Component{
 			filteredExpenses = filterArrayByType(expenses, this.state.account);
 			filteredEstimatedSavings = filterArrayByType(estimatedSavings, this.state.account)
 		}
-		console.log(this.props)
+
 		return (
 			<div className={classes.root} >
+				<Notifier open={this.state.showSuccessSnack} setOpen={this.handleSuccessSnackOpen} message="Successfully Saved"  />
 				<Header 
 					email={email} 
 					googleSignIn={googleSignIn}
@@ -286,13 +313,7 @@ class DashBoard extends Component{
 				<Drawer info={this.props.location.state} highlighted={0} />
 				{
 					this.state.loading ? (
-					<div style={{
-							display: 'flex', 
-							justifyContent: 'center', 
-							height: '100vh',  
-							width: '100%'
-						 }}
-					> 
+					<div className={classes.circularProgressContainer}> 
 						<CircularProgress style={{alignSelf: 'center'}} /> 
 					</div>) : (
 					<main className={classes.content}>
