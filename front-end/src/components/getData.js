@@ -28,7 +28,7 @@ export const filterArrayByType = (array, type) => {
 
 export const getData = (income, expenses, date) => {
     let incomeExpenseArray = incomeExpenseArrayFx(income, expenses); // sorted array of income and expense
-
+    
     const filterArr = filterArrayFx(incomeExpenseArray, date);
   
     return filterArr;

@@ -13,7 +13,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const StyledTableRow = withStyles((theme) => ({
   root: {
+    '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
+    },
   },
 }))(TableRow);
 
@@ -61,8 +63,8 @@ function DisplayTable(props) {
         <TableBody>
           {incomeExpense && incomeExpense.map((row,index) => (
             <StyledTableRow key={index} >
-	            <StyledTableCell>{row.type}</StyledTableCell>
-              <StyledTableCell component="th" scope="row">
+	            <StyledTableCell component="th" scope="row">{row.type}</StyledTableCell>
+              <StyledTableCell>
                 {row.date.substr(0,16)}
               </StyledTableCell>
               <StyledTableCell>Rs. {+row.amount}</StyledTableCell>
@@ -75,16 +77,11 @@ function DisplayTable(props) {
                   alignItems: 'center'
                 }}> {row.account} 
                 <div>
-                {/* <Tooltip title="Edit">
-                  <IconButton style={{ paddingTop: '5px'}}>
-                    <EditIcon />
-                  </IconButton>
-                </Tooltip> */}
-                <Tooltip title="Delete">
-                  <IconButton style={{ paddingTop: '5px'}} onClick={() => handleDeleteIcon(row)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </Tooltip>
+                  <Tooltip title="Delete">
+                    <IconButton style={{ paddingTop: '5px'}} onClick={() => handleDeleteIcon(row)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </Tooltip>
                 </div>
               </StyledTableCell>
             </StyledTableRow>

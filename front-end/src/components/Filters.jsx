@@ -26,7 +26,7 @@ class Filters extends Component{
 
   render() {
 	return (
-	  <div style={{display: 'flex', flex: '1', alignItems: 'center', marginRight: '100px'}}>
+	  <div style={{display: 'flex', flex: '1', alignItems: 'center', marginRight: '100px', marginBottom: '20px'}}>
 		<Tooltip title="Filter"> 
 			<FilterListOutlinedIcon />
 		</Tooltip>

@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { Card, CardContent } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { getData } from './getData'; 
+import { incomeExpenseArrayFx, filterArrayFx, getData } from './getData'; 
 
 class DailyData extends Component {
   constructor(props) {
@@ -21,76 +21,87 @@ class DailyData extends Component {
   }
 
   render() {
-    // let rows = this.props.income
-    //           .concat(this.props.expenses)
-    //           .sort ( function (a, b){
-    //             return new Date(a.date) - new Date(b.date);
-    //           });
+    const filterIncomeArray = filterArrayFx( incomeExpenseArrayFx(this.props.income, []), this.state.date);
+    const filterExpenseArray = filterArrayFx( incomeExpenseArrayFx([], this.props.expenses), this.state.date);
+    const noOfDays = new Date(Number(this.state.date.substr(12,4)), new Date(this.state.date).getMonth() + 1, 0).getDate();
 
-    // const filterArray = rows.filter( obj => {
-    //   if(new Date(obj.date).getFullYear() === new Date(this.state.date).getFullYear()) {
-    //       if(new Date(obj.date).getMonth() === new Date(this.state.date).getMonth()) {
-    //         return obj;
-    //       }
-    //   }
-    // });
+    const labels = [];    //contains the no. of days of a month
+    
+    for(let i = 1; i <= noOfDays; i++){
+      labels.push(i)
+    }
 
-    const filterArray = getData(this.props.income, this.props.expenses, this.state.date);
+    let incomeDataArray = [];
+    let expenseDataArray = [];
 
-    const labels = filterArray.map(obj => new Date(obj.date).getDate());
-    const uniqueSet = new Set(labels);
-    const array = [...uniqueSet];         //for getting unique dates
-
-    let incomeDataArray;
-    let expenseDataArray
-
-    if(filterArray.length !== 0){
-
-      incomeDataArray = [filterArray[0].type === 'Income' ? filterArray[0].amount : 0];     //for collecting data for unique dates
-      expenseDataArray = [filterArray[0].type === 'Expense' ? filterArray[0].amount : 0];
+    if(filterIncomeArray.length !== 0){
+      incomeDataArray.push({amount: +filterIncomeArray[0].amount, date: new Date(filterIncomeArray[0].date).getDate()});     //for collecting data for unique dates
       
-      for(let i=1;i<filterArray.length;i++) {
-        if(filterArray[i].type === 'Income') {
+      for(let i=1; i<filterIncomeArray.length; i++) {
 
-          if(new Date(filterArray[i].date).getDate() === new Date(filterArray[i-1].date).getDate()) {
+          if(new Date(filterIncomeArray[i].date).getDate() === new Date(filterIncomeArray[i-1].date).getDate()) {
             incomeDataArray.pop();
-            incomeDataArray.push(+filterArray[i-1].amount + +filterArray[i].amount);
-        
+            incomeDataArray.push({amount: (+filterIncomeArray[i-1].amount + +filterIncomeArray[i].amount), date: new Date(filterIncomeArray[i].date).getDate()});
           } else {
-            incomeDataArray.push(filterArray[i].amount);
-            expenseDataArray.push(0);
+            incomeDataArray.push({amount: +filterIncomeArray[i].amount, date: new Date(filterIncomeArray[i].date).getDate()});
           }
 
-        }
-        else {
-          
-          if(new Date(filterArray[i].date).getDate() === new Date(filterArray[i-1].date).getDate()) {
-            expenseDataArray.pop();
-            expenseDataArray.push(+filterArray[i-1].amount + +filterArray[i].amount);
-          } else {
-            expenseDataArray.push(filterArray[i].amount);
-            incomeDataArray.push(0);
-          }
-        }
       }
       
-      console.log(`Income: ${incomeDataArray}`);
-      console.log(`Expense:  ${expenseDataArray}`);
+    }
+
+    if(filterExpenseArray.length !== 0){
+      expenseDataArray.push({amount: +filterExpenseArray[0].amount, date: new Date(filterExpenseArray[0].date).getDate()});     //for collecting data for unique dates
+      
+      for(let i=1; i<filterExpenseArray.length; i++) {
+
+          if(new Date(filterExpenseArray[i].date).getDate() === new Date(filterExpenseArray[i-1].date).getDate()) {
+            expenseDataArray.pop();
+            expenseDataArray.push({amount: (+filterExpenseArray[i-1].amount + +filterExpenseArray[i].amount), date: new Date(filterExpenseArray[i].date).getDate()});
+          } else {
+            expenseDataArray.push({amount: +filterExpenseArray[i].amount, date: new Date(filterExpenseArray[i].date).getDate()});
+          }
+
+      }
+    }
+
+    let chartIncomeArray = [];
+
+    for(let i=1; i<=noOfDays; i++){
+      const amount = incomeDataArray.find(income => income.date === i);
+      if(amount){
+        chartIncomeArray.push(amount.amount);
+      }
+      else{
+        chartIncomeArray.push(0);
+      }
+    }
+
+    let chartExpenseArray = [];
+
+    for(let i=1; i<=noOfDays; i++){
+      const amount = expenseDataArray.find(expense => expense.date === i);
+      if(amount){
+        chartExpenseArray.push(amount.amount);
+      }
+      else{
+        chartExpenseArray.push(0);
+      }
     }
 
     const data = {
-      labels: array,
+      labels: labels,
       datasets: [
         {
           label: 'Income',
-          data: incomeDataArray,
+          data: chartIncomeArray,
           fill: false,
           backgroundColor: 'green',
           borderColor: 'green'
         },
         {
           label: 'Expense',
-          data: expenseDataArray,
+          data: chartExpenseArray,
           fill: false,
           backgroundColor: 'red',
           borderColor: 'red'

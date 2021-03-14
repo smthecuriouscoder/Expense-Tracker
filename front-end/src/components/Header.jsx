@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PopOver from './Popover';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import MenuIcon from '@material-ui/icons/Menu';
 import { Typography, IconButton, Avatar, AppBar, Toolbar, Badge, Tooltip } from '@material-ui/core';
 import cssstyles from '../styles/Dashboard.module.css';
 import { withStyles } from '@material-ui/core/styles'; 
@@ -9,10 +10,18 @@ const drawerWidth = 190;
 
 const styles = theme => ({
     appBar: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      backgroundColor: 'hsl(120, 82%, 33%)',
+        [theme.breakpoints.up('sm')]: {
+          width: `calc(100% - ${drawerWidth}px)`,
+          marginLeft: drawerWidth,
+        },
+        backgroundColor: 'hsl(120, 82%, 33%)'
     },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+          display: 'none',
+        },
+      },
     toolbar: theme.mixins.toolbar,
     header: {
       display: 'flex',
@@ -51,9 +60,17 @@ class Header extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div>
                 <AppBar position="fixed" className={classes.appBar}>
 					<Toolbar>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            edge="start"
+                            //onClick={handleDrawerToggle}
+                            className={classes.menuButton}
+                        >
+                            <MenuIcon />
+                        </IconButton>
 						<Typography 
                             variant="h5" 
                             noWrap 
@@ -94,7 +111,6 @@ class Header extends Component {
 						/>
 					</Toolbar>
 				</AppBar>
-            </div>
         )
     }
 }

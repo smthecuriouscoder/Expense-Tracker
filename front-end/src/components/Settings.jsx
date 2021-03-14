@@ -1,36 +1,26 @@
 import React, { Component } from 'react';
-import { Typography, AppBar, Toolbar, Snackbar } from '@material-ui/core';
 import Drawer from './Drawer';
-import cssstyles from '../styles/Analysis.module.css';
-import { withStyles } from '@material-ui/core/styles';
-import {
-  Box,
-  Container,
-  IconButton
-} from '@material-ui/core';
 import Notifications from './Notifications';
 import Password from './Password';
 import UpdateDetails from './UpdateDetails';
+import {
+  Box,
+  Container,
+  IconButton,
+  Snackbar
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-
-const drawerWidth = 190;
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   root: {
     display: 'flex',
   },
-  appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
-    backgroundColor: 'hsl(120, 82%, 33%)'
-  },
-  toolbar: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
     padding: theme.spacing(5),
   }
 });
-
 
 class Settings extends Component{
     constructor(props){
@@ -59,11 +49,6 @@ class Settings extends Component{
 
         return (
           <div className={classes.root}>
-	        <AppBar position="fixed" className={classes.appBar}>
-        	    <Toolbar>
-        	      <Typography variant="h5" noWrap className={cssstyles.analysisHeading}>Settings</Typography>
-        	    </Toolbar>
-        	</AppBar>
 		  	<Drawer info={this.props.location.state} highlighted={2} />
 		  	<main className={classes.content}>
 		        <div className={classes.toolbar} />

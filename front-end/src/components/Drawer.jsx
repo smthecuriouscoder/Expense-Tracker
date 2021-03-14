@@ -1,18 +1,32 @@
 import React, {Component} from "react";
+import PopOver from './Popover';
 import {
+  Avatar,
   Drawer as MUIDrawer,
   ListItem,
   List,
   ListItemIcon,
   ListItemText,
-  Divider
+  Divider,
+  Hidden,
+  Badge,
+  Tooltip,
+  Typography,
+  IconButton,
+  AppBar,
+  Toolbar
 } from "@material-ui/core";
+import MenuIcon from '@material-ui/icons/Menu';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import DashboardOutlinedIcon from '@material-ui/icons/DashboardOutlined';
 import AssessmentOutlinedIcon from '@material-ui/icons/AssessmentOutlined';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import { compose } from 'redux';
+import cssstyles from '../styles/Dashboard.module.css';
+
+const drawerWidth = 190;
 
 const styles = theme => ({
   root: {
@@ -21,14 +35,29 @@ const styles = theme => ({
     }
   },
   drawer: {
-    width: "190px",
-    flexShrink: 0,
+    [theme.breakpoints.up('sm')]: {
+      width: "190px",
+      flexShrink: 0,
+    },
   },
+  appBar: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+    backgroundColor: 'hsl(120, 82%, 33%)'
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  toolbar: theme.mixins.toolbar,
   drawerPaper: {
     backgroundColor: 'hsl(120, 82%, 33%)',
     width: "190px",
   },
-  toolbar: theme.mixins.toolbar,
   sideBarItems: {
     color: 'white',
   },
@@ -36,6 +65,9 @@ const styles = theme => ({
     minWidth: '56px',
     color: 'white',
   },
+  customBadge: {
+    backgroundColor: "red"
+  }
 });
 
 class Drawer extends Component {
@@ -43,7 +75,10 @@ class Drawer extends Component {
     super(props);
 
     this.state={
-	    selectedIndex: 0
+	    selectedIndex: 0,
+      mobileOpen: false,
+      pop_open: false,
+      anchorEl: null
     }
   }
 
@@ -53,8 +88,32 @@ class Drawer extends Component {
     }
   }
 
+  //for toggling the drawer
+  handleDrawerToggle = () => {
+    this.setState({
+      mobileOpen: !this.state.mobileOpen
+    })
+  }
+
+  //for opening the pop over
+  handleClick = (event) => {
+		this.setState({
+			pop_open: true,
+			anchorEl: event.currentTarget,
+		});
+  }
+
+  //for closing the pop over
+	handleClose = () => {
+    this.setState({
+        pop_open: false,
+        anchorEl: null
+    });
+  }
+
   render() {
     const { history, classes } = this.props;
+    const info = this.props.info; 
 
     const itemsList = [
       {
@@ -64,7 +123,7 @@ class Drawer extends Component {
         onClick: () => {
             history.replace({
                           pathname: "/dashboard",
-                          state: { email: this.props.info.email, profilePhoto: this.props.info.profilePhoto, googleSignIn: this.props.info.googleSignIn }
+                          state: { email: info.email, profilePhoto: info.profilePhoto, googleSignIn: info.googleSignIn }
             })
           }
       },
@@ -75,7 +134,7 @@ class Drawer extends Component {
         onClick: () => {	 	      
             history.replace({
                           pathname: "/analysis",
-                          state: { email: this.props.info.email, profilePhoto: this.props.info.profilePhoto, googleSignIn: this.props.info.googleSignIn }
+                          state: { email: info.email, profilePhoto: info.profilePhoto, googleSignIn: info.googleSignIn }
             })
           }
       },
@@ -86,20 +145,14 @@ class Drawer extends Component {
         onClick: () => {
             history.replace({
                           pathname: "/settings",
-                          state: { email: this.props.info.email, profilePhoto: this.props.info.profilePhoto, googleSignIn: this.props.info.googleSignIn }
+                          state: { email: info.email, profilePhoto: info.profilePhoto, googleSignIn: info.googleSignIn }
             })
           }
       }
     ];
 
-    return (
-      <MUIDrawer 
-        variant="permanent" 
-        className={classes.drawer}  
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-      >
+    const drawer = (
+      <div>
         <div className={classes.toolbar} />
         <Divider />
         <List>
@@ -113,8 +166,97 @@ class Drawer extends Component {
             );
           })}
         </List>
-      </MUIDrawer>
-    );
+      </div>
+    )
+
+    const container = window !== undefined ? () => window.document.body : undefined;
+
+    return (
+      <>
+      <AppBar position="fixed" className={classes.appBar}>
+					<Toolbar>
+            <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={this.handleDrawerToggle}
+                className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+						<Typography 
+              variant="h5" 
+              noWrap 
+              className={cssstyles.pageHeader}
+            >
+              Hi {info.email}
+            </Typography>
+						<Tooltip title="Notifications">
+              <IconButton 
+                  style={{
+                      color: 'white',
+                      marginRight: '5px'
+                  }}
+              >
+                <Badge 
+                    badgeContent={3} 
+                    classes={{ 
+                        badge: classes.customBadge 
+                    }}
+                >
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+
+						<IconButton onClick={this.handleClick}>
+							<Avatar alt={info.email} src={info.profilePhoto} />
+						</IconButton>
+
+						<PopOver 
+							pop_open={this.state.pop_open} 
+							anchorEl={this.state.anchorEl}
+							isLoggedIn={this.props.isLoggedIn} 
+							handleLogout={this.props.handleLogout}
+              handleLogoutSuccess={this.props.handleLogoutSuccess}
+							handleClose={this.handleClose}
+							googleSignIn={info.googleSignIn} 
+						/>
+					</Toolbar>
+			</AppBar>
+      <div className={classes.drawer}>
+        <Hidden smUp implementation="css">
+          <MUIDrawer 
+            container={container}
+            variant="temporary" 
+            anchor="left"
+            open={this.state.mobileOpen}
+            onClose={this.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </MUIDrawer>
+        </Hidden>
+
+        <Hidden xsDown implementation="css">
+          <MUIDrawer
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </MUIDrawer>
+        </Hidden>
+      </div>
+      </>
+    )
   }
 }
 

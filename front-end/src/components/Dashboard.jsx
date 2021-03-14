@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import Drawer from './Drawer';
-import Header from './Header';
 import Filters from './Filters';
 import IncomeDialog from './Incomedialog';
 import EstimatedSavingsDialog from './Estimatedsavingsdialog';
 import ExpenseDialog from './Expensedialog';
 import CardCollection from './CardCollection';
 import FilterTable from './filter-table';
-import cssstyles from '../styles/Dashboard.module.css';
-import AddIcon from '@material-ui/icons/Add';
+import Notifier from './Notifier';
 import { Button, Snackbar, CircularProgress } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import cssstyles from '../styles/Dashboard.module.css';
 import { withStyles } from '@material-ui/core/styles';
 import { green, red } from '@material-ui/core/colors';
 import axios from 'axios';
 import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from './apiurl.jsx';
 import { filterArrayByType } from './getData.js';
-import Notifier from './Notifier';
 //import { sendEmail } from './apiurl.jsx';
 
 const styles = theme => ({
@@ -302,23 +301,22 @@ class DashBoard extends Component{
 		return (
 			<div className={classes.root} >
 				<Notifier open={this.state.showSuccessSnack} setOpen={this.handleSuccessSnackOpen} message="Successfully Saved"  />
-				<Header 
-					email={email} 
-					googleSignIn={googleSignIn}
-					profilePhoto={profilePhoto}
+				
+				<Drawer 
+					info={this.props.location.state} 
+					highlighted={0}
 					isLoggedIn={isLoggedIn} 
 					handleLogout={this.handleLogout}
-					handleLogoutSuccess={this.handleLogoutSuccess}
+					handleLogoutSuccess={this.handleLogoutSuccess} 
 				/>
-				<Drawer info={this.props.location.state} highlighted={0} />
 				{
 					this.state.loading ? (
 					<div className={classes.circularProgressContainer}> 
 						<CircularProgress style={{alignSelf: 'center'}} /> 
 					</div>) : (
 					<main className={classes.content}>
-					<div className={classes.toolbar} />
-					<div>
+						<div className={classes.toolbar} />
+						<div>
 						<h1 style={{marginTop: 0}}>Overview</h1>
 						<div className={cssstyles.container}>
 							<Filters account={this.state.account} handleFilterArrayByType={this.handleFilterArrayByType} />
@@ -386,7 +384,7 @@ class DashBoard extends Component{
     						</div>
 						}
 					</div>  
-				</main> )
+					</main> )
 				}
 			</div>
 		);
