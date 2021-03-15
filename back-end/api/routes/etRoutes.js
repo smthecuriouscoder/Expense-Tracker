@@ -1,74 +1,13 @@
 const express = require('express');
-const nodemailer = require('nodemailer');
 const { ObjectId } = require('mongodb');
 const router = express.Router();
+const cron = require('node-cron');
 const client = require('../../client.js');
+const { getDetails } = require('../../users.js');
 
-let transporter = nodemailer.createTransport({ 
-    service: 'gmail', 
-    auth: { 
-        user: '', 
-        pass: ''
-    } 
+cron.schedule('* * 28 * *', function() {
+    getDetails();
 });
-
-router.post('/sendEmail', (req, res, next) => {
-    let email = req.body.email;
-    let transaction = req.body.transaction;
-
-    let message = (
-        '<h1>Monthly Report</h1>' +
-        '<p>Here is the record of your income and expenses for this month: </p>' +
-        '<table style="border: 1px solid black; border-collapse: collapse;">' +
-            '<thead>' +
-                '<tr>' +
-                    '<th style="border: 1px solid black; border-collapse: collapse;"> Type </th>' +
-                    '<th style="border: 1px solid black; border-collapse: collapse;"> Date </th>'  +
-                    '<th style="border: 1px solid black; border-collapse: collapse;"> Amount </th>'  +
-                    '<th style="border: 1px solid black; border-collapse: collapse;"> Category </th>'  +
-                    '<th style="border: 1px solid black; border-collapse: collapse;"> Description </th>'  +
-                    '<th style="border: 1px solid black; border-collapse: collapse;"> Type of Account</th>'  +
-                '</tr>' +
-            '</thead>'
-    ); 
-      
-    for(const { type, date, amount, category, description, account } of transaction) {
-         message += (
-           '<tr>' +
-                '<td  style="border: 1px solid black; border-collapse: collapse;">' + type + '</td>' +
-                '<td style="border: 1px solid black; border-collapse: collapse;">' + date.split(' ').slice(0, 4).join(' ') + '</td>' +
-                '<td style="border: 1px solid black; border-collapse: collapse;">' + 'Rs. ' + +amount + '</td>' +
-                '<td style="border: 1px solid black; border-collapse: collapse;">' + category + '</td>' +
-                '<td style="border: 1px solid black; border-collapse: collapse;">' + description + '</td>' +
-                '<td style="border: 1px solid black; border-collapse: collapse;">' + account + '</td>' +
-          '</tr>'
-         );
-    }
-      
-    message +=  '</table>' +
-                '<br />' +
-                '<span style="font-weight: bold;">Regards,</span> <br />' +
-                '<span>Expense Tracker</span>';
-
-    var mail = {
-      from: '',
-      to: email,
-      subject: 'Monthly Report',
-      html: message,
-    };
-  
-    transporter.sendMail(mail, (err, data) => {
-      if (err) {
-        res.json({
-          status: 'Message not sent'
-        })
-      } else {
-        res.json({
-         status: 'Message Sent'
-        })
-      }
-    });
-})
 
 router.get('/', (req, res, next) => {
     res.status(200).json({

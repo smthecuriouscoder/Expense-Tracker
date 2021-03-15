@@ -7,6 +7,7 @@ import axios from 'axios';
 import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from './apiurl.jsx';
 import { filterArrayByType } from './getData.js';
 import Filters from './Filters';
+import spinner from '../assets/circles-menu-1.gif';
 
 const styles = theme => ({
     root: {
@@ -121,7 +122,8 @@ class Analysis extends Component {
                 width: '100%'
                }}
               > 
-                <CircularProgress style={{alignSelf: 'center'}} /> 
+                {/* <CircularProgress style={{alignSelf: 'center'}} />  */}
+                <img src={spinner} style={{width: '100px', alignSelf: 'center'}} />
               </div> ) : (
               <main className={classes.content}>
                 <div className={classes.toolbar} />

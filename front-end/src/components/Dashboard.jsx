@@ -15,6 +15,7 @@ import { green, red } from '@material-ui/core/colors';
 import axios from 'axios';
 import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from './apiurl.jsx';
 import { filterArrayByType } from './getData.js';
+import spinner from '../assets/circles-menu-1.gif';
 //import { sendEmail } from './apiurl.jsx';
 
 const styles = theme => ({
@@ -312,7 +313,8 @@ class DashBoard extends Component{
 				{
 					this.state.loading ? (
 					<div className={classes.circularProgressContainer}> 
-						<CircularProgress style={{alignSelf: 'center'}} /> 
+						{/* <CircularProgress style={{alignSelf: 'center'}} />  */}
+						<img src={spinner} style={{width: '100px', alignSelf: 'center'}} />
 					</div>) : (
 					<main className={classes.content}>
 						<div className={classes.toolbar} />
