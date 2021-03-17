@@ -7,7 +7,7 @@ import ExpenseDialog from './Expensedialog';
 import CardCollection from './CardCollection';
 import FilterTable from './filter-table';
 import Notifier from './Notifier';
-import { Button, Snackbar, CircularProgress } from '@material-ui/core';
+import { Button, Snackbar } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import cssstyles from '../styles/Dashboard.module.css';
 import { withStyles } from '@material-ui/core/styles';
@@ -23,6 +23,12 @@ const styles = theme => ({
     display: 'flex',
   },
   toolbar: theme.mixins.toolbar,
+  contentContainer: {
+	[theme.breakpoints.up('sm')]: {
+		width: `calc(100% - ${190}px)`,
+	},
+	width: '100%',
+  },
   content: {
     flexGrow: 1,
     padding: theme.spacing(5),
@@ -255,25 +261,6 @@ class DashBoard extends Component{
 		this.setState({
 			account: type
 		})
-		// if(type !== "All Accounts"){
-		// 	let income = [];
-		// 	let expenses = [];
-			
-		// 	let transactionArray = filterArrayByType(incomeExpenseArrayFx(this.state.income, this.state.expenses), type)
-		// 	for(let i = 0; i < transactionArray.length; i++) {
-		// 		if(transactionArray[i].type === 'Income')
-		// 			income.push(transactionArray[i]);
-		// 		else
-		// 			expenses.push(transactionArray[i])
-		// 	}
-		// 	this.setState({
-		// 		income: income,
-		// 		expenses: expenses
-		// 	})
-		// }
-		// else{
-			
-		// }
 	}
 
     render() {
@@ -313,9 +300,9 @@ class DashBoard extends Component{
 				{
 					this.state.loading ? (
 					<div className={classes.circularProgressContainer}> 
-						{/* <CircularProgress style={{alignSelf: 'center'}} />  */}
 						<img src={spinner} style={{width: '100px', alignSelf: 'center'}} />
 					</div>) : (
+					<div className={classes.contentContainer}>
 					<main className={classes.content}>
 						<div className={classes.toolbar} />
 						<div>
@@ -386,7 +373,8 @@ class DashBoard extends Component{
     						</div>
 						}
 					</div>  
-					</main> )
+					</main>
+					</div> )
 				}
 			</div>
 		);

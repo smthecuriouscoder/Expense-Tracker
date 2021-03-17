@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Drawer from './Drawer';
 import DailyData from './daily-data';
-import { CircularProgress } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from './apiurl.jsx';
@@ -91,7 +90,7 @@ class Analysis extends Component {
         }
       }
 
-    handleFilterArrayByType = (type) => {
+    handleFilterArrayByType = (type) => {   //for changing the account type (All Accounts or Personal or Business)
       this.setState({
         account: type
       })
@@ -100,6 +99,7 @@ class Analysis extends Component {
     render() {
 	      const { classes } = this.props;
         const { income, expenses, estimatedSavings } = this.state;
+
         let filteredIncome = income;
         let filteredExpenses = expenses;
         let filteredEstimatedSavings = estimatedSavings;

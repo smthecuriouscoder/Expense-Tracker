@@ -5,9 +5,9 @@ const cron = require('node-cron');
 const client = require('../../client.js');
 const { getDetails } = require('../../users.js');
 
-cron.schedule('* * 28 * *', function() {
-    getDetails();
-});
+// cron.schedule('* * 28 * *', function() {
+//     getDetails();
+// });
 
 router.get('/', (req, res, next) => {
     res.status(200).json({

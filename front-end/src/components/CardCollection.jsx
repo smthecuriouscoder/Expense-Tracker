@@ -6,6 +6,7 @@ import SavingsProgress from './SavingsProgress';
 import cssstyles from '../styles/Dashboard.module.css';
 
 function CardCollection({ income, expenses, estimatedSavings }){
+  //for finding the balance
   const Balance = () => {
 	let incomeAmount = 0;
 	let expenseAmount = 0;
@@ -62,7 +63,7 @@ function CardCollection({ income, expenses, estimatedSavings }){
 		<div className={cssstyles.papers}>
 			<Card raised elevation={23} className={cssstyles.card}>
 				<CardContent className={cssstyles.cardContent}>
-					<h1 style={{textAlign: 'center'}}>Stats</h1>
+					<h2 style={{textAlign: 'center'}}>Stats</h2>
 					<div className={cssstyles.incExpContainer}>
 						<div className={cssstyles.handleOverflow}>
 							<h4 className={cssstyles.incomeRs}>Income</h4>
@@ -79,7 +80,7 @@ function CardCollection({ income, expenses, estimatedSavings }){
 
 			<Card raised elevation={23} className={cssstyles.card} style={{flexGrow: '5'}}>
 				<CardContent className={cssstyles.cardContent}>
-					<h1 style={{textAlign: 'center'}}>CategoryWise Expenses</h1>
+					<h2 style={{textAlign: 'center'}}>CategoryWise Expenses</h2>
 					<CallExpChart expensesArray={expenses} />
 				</CardContent>
 			</Card>

@@ -1,4 +1,4 @@
-const client = require('../../client.js');
+const client = require('./client.js');
 const nodemailer = require('nodemailer');
 
 let users = [];

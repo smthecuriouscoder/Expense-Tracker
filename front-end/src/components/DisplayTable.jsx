@@ -49,7 +49,7 @@ function DisplayTable(props) {
   
   return (
     <TableContainer component={Paper} className={classes.container}>
-      <Table stickyHeader className={classes.table} aria-label="customized table">
+      <Table stickyHeader className={classes.table}>
         <TableHead>
           <TableRow>
             <StyledTableCell>Type</StyledTableCell>

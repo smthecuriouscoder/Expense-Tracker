@@ -78,7 +78,10 @@ class FilterTable extends Component {
                             disableFuture
                             openTo="year"
                             autoOk
-                            style={{margin: '15px'}}
+                            style={{
+                                margin: '15px 0',
+                                width: '10em'
+                            }}
                         />
                     </MuiPickersUtilsProvider>
                 </div>

@@ -5,6 +5,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { incomeExpenseArrayFx, filterArrayFx, getData } from './getData'; 
 
+//for the data of line chart in the analysis section
 class DailyData extends Component {
   constructor(props) {
     super(props)
