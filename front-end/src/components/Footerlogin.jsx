@@ -13,7 +13,7 @@ class FooterLogIn extends Component{
 
 	render() {
 		return(
-			<div>
+			<div style={{marginBottom: '10px'}}>
 				<div className={styles.optionLogIn}>
 					<hr className={styles.separateLogIn} />
 					<span className={styles.optionOr}>or</span>

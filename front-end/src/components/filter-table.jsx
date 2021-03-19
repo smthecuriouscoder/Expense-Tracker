@@ -76,10 +76,10 @@ class FilterTable extends Component {
                             inputVariant="outlined"
                             animateYearScrolling
                             disableFuture
-                            openTo="year"
+                            openTo="month"
                             autoOk
                             style={{
-                                margin: '15px 0',
+                                margin: '15px 0 15px 10px',
                                 width: '10em'
                             }}
                         />

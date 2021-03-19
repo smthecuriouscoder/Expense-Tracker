@@ -45,12 +45,26 @@ class Settings extends Component{
       this.setState({ alertOpen: false });    
     };
 
+	handleLogout= () => {
+		this.props.handleLogInStatus(false);
+	}
+  
+	handleLogoutSuccess = (res) => {
+		this.props.handleLogInStatus(false);
+	}
+
     render() {
         const { classes } = this.props;
 
         return (
           <div className={classes.root}>
-		  	<Drawer info={this.props.location.state} highlighted={2} />
+		  	<Drawer 
+			  info={this.props.location.state} 
+			  highlighted={2}
+			  isLoggedIn={this.props.isSignedIn}
+			  handleLogout={this.handleLogout}
+              handleLogoutSuccess={this.handleLogoutSuccess}
+			/>
 		  	<main className={classes.content}>
 		        <div className={classes.toolbar} />
 		        <Container maxWidth="lg">

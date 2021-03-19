@@ -99,7 +99,7 @@ class Drawer extends Component {
   handleClick = (event) => {
 		this.setState({
 			pop_open: true,
-			anchorEl: event.currentTarget,
+			anchorEl: event.currentTarget
 		});
   }
 
@@ -114,7 +114,7 @@ class Drawer extends Component {
   render() {
     const { history, classes } = this.props;
     const info = this.props.info; 
-
+    
     const itemsList = [
       {
         text: "Dashboard",
@@ -170,7 +170,7 @@ class Drawer extends Component {
     )
 
     const container = window !== undefined ? () => window.document.body : undefined;
-
+   
     return (
       <>
       <AppBar position="fixed" className={classes.appBar}>

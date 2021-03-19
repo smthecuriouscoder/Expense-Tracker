@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { Card, CardContent } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { incomeExpenseArrayFx, filterArrayFx, getData } from './getData'; 
+import { incomeExpenseArrayFx, filterArrayFx } from './getData'; 
 
 //for the data of line chart in the analysis section
 class DailyData extends Component {
@@ -29,7 +29,17 @@ class DailyData extends Component {
     const labels = [];    //contains the no. of days of a month
     
     for(let i = 1; i <= noOfDays; i++){
-      labels.push(i)
+      if(new Date(this.state.date).getFullYear() === new Date().getFullYear())
+      {
+        if(new Date(this.state.date).getMonth() < new Date().getMonth())
+          labels.push(i)
+        else if( new Date(this.state.date).getMonth() === new Date().getMonth()  && i <= new Date().getDate())
+          labels.push(i)
+      }
+      else
+      {
+        labels.push(i)
+      }
     }
 
     let incomeDataArray = [];
@@ -96,15 +106,15 @@ class DailyData extends Component {
         {
           label: 'Income',
           data: chartIncomeArray,
-          fill: false,
-          backgroundColor: 'green',
+          backgroundColor: '#B7F69A',
+          fill: true,
           borderColor: 'green'
         },
         {
           label: 'Expense',
           data: chartExpenseArray,
-          fill: false,
-          backgroundColor: 'red',
+          fill: true,
+          backgroundColor: '#E58090',
           borderColor: 'red'
         }
       ]
@@ -150,25 +160,30 @@ class DailyData extends Component {
               return label;
           }
         }
-      }
+      },
     }
 
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
     return(
-      <div style={{marginTop: '20px'}}>
-        <Card raised elevation={15} style={{
+      <div style={{margin: '20px 0'}}>
+        <Card raised style={{
                               display: "flex",
                               flexDirection: "column"
-                            }} >
+                      }} >
         
-          <CardContent style={{alignItems: 'center', width: '100%'}}>
+          <CardContent style={{alignItems: 'center'}}>
             <div style={{
                     display: "flex",
                     justifyContent: "space-between",
                     flexWrap: 'wrap',
-                    margin: "0 30px"
+                    width: '90%',
+                    margin: "0 auto"
                 }}
             > 
-              <h2>Monthly Record</h2>
+              <h2>Monthly Record of {monthNames[new Date(this.state.date).getMonth()]}</h2>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <DatePicker
                       margin="dense"
@@ -180,7 +195,10 @@ class DailyData extends Component {
                       inputVariant="outlined"
                       animateYearScrolling
                       disableFuture
-                      openTo="year"
+                      openTo="month"
+                      style={{
+                        width: '10em'
+                      }}
                       autoOk
                     />
               </MuiPickersUtilsProvider>

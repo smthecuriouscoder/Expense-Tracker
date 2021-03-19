@@ -7,6 +7,7 @@ import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from './
 import { filterArrayByType } from './getData.js';
 import Filters from './Filters';
 import spinner from '../assets/circles-menu-1.gif';
+import MonthlyData from './MonthlyData';
 
 const styles = theme => ({
     root: {
@@ -96,10 +97,18 @@ class Analysis extends Component {
       })
     }
 
+    handleLogout= () => {
+      this.props.handleLogInStatus(false);
+    }
+
+    handleLogoutSuccess = (res) => {
+      this.props.handleLogInStatus(false);
+    }
+
     render() {
 	      const { classes } = this.props;
         const { income, expenses, estimatedSavings } = this.state;
-
+     
         let filteredIncome = income;
         let filteredExpenses = expenses;
         let filteredEstimatedSavings = estimatedSavings;
@@ -112,7 +121,13 @@ class Analysis extends Component {
 
         return (
           <div className={classes.root} >
-		        <Drawer info={this.props.location.state} highlighted={1} />
+		        <Drawer 
+              info={this.props.location.state} 
+              highlighted={1}  
+              isLoggedIn={this.props.isSignedIn}
+              handleLogout={this.handleLogout}
+              handleLogoutSuccess={this.handleLogoutSuccess}
+            />
 		        {
               this.state.loading ? (
               <div style={{
@@ -121,15 +136,15 @@ class Analysis extends Component {
                 height: '100vh',  
                 width: '100%'
                }}
-              > 
-                {/* <CircularProgress style={{alignSelf: 'center'}} />  */}
-                <img src={spinner} style={{width: '100px', alignSelf: 'center'}} />
+              >
+                <img src={spinner} alt="spinner" style={{width: '100px', alignSelf: 'center'}} />
               </div> ) : (
               <main className={classes.content}>
                 <div className={classes.toolbar} />
                 <Filters account={this.state.account} handleFilterArrayByType={this.handleFilterArrayByType} />
-                <DailyData income={filteredIncome} expenses={filteredExpenses} estimatedSavings={filteredEstimatedSavings} />
-		          </main>)
+                <MonthlyData income={filteredIncome} expenses={filteredExpenses} />
+                <DailyData income={filteredIncome} expenses={filteredExpenses} />
+              </main>)
             }
           </div>
         );

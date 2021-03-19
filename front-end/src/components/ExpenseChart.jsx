@@ -90,6 +90,7 @@ class ExpenseChart extends Component{
     
     const options = {
 	    maintainAspectRatio: false,
+      cutoutPercentage: 60,
       tooltips: {
         callbacks: {
             label: function (tooltipItems, data) {

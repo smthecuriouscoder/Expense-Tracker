@@ -50,9 +50,9 @@ class App extends Component {
                     />
                 } 
               />
-              <Route exact path="/dashboard" render={ props => <DashBoard {...props}  handleLogInStatus={this.handleLogInStatus} />} />
-              <Route exact path="/analysis" render={ props => <Analysis {...props} />} />
-              <Route exact path="/settings" render={ props => <Settings {...props} userDetails={ this.state.user} />} />
+              <Route exact path="/dashboard" render={ props => <DashBoard {...props} isSignedIn={this.state.isSignedIn} handleLogInStatus={this.handleLogInStatus} />} />
+              <Route exact path="/analysis" render={ props => <Analysis {...props}  isSignedIn={this.state.isSignedIn}handleLogInStatus={this.handleLogInStatus} />} />
+              <Route exact path="/settings" render={ props => <Settings {...props} isSignedIn={this.state.isSignedIn} userDetails={ this.state.user} handleLogInStatus={this.handleLogInStatus} />} />
               <Route component={Notfound} />
             </Switch>
         </Router>

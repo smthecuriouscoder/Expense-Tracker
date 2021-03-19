@@ -19,6 +19,15 @@ export const filterArrayFx = (incomeExpenseArray, date) => (
   })
 )
 
+export const filterArrayByYearFx = (incomeorExpenseArray, date) => (
+  incomeorExpenseArray.filter( obj => {
+    if(new Date(obj.date).getFullYear() === new Date(date).getFullYear()) {
+          return obj;
+    }
+    return null;
+  })
+)
+
 //function to filter array by account type (Personal or Business)
 export const filterArrayByType = (array, type) => {
   return array.filter( transaction => {
@@ -32,4 +41,59 @@ export const getData = (income, expenses, date) => {
     const filterArr = filterArrayFx(incomeExpenseArray, date);
   
     return filterArr;
+}
+
+export const filterArrayByMonth = (incomeorExpenseArray) => {   //filter array by month
+  const monthlyAmount = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+  incomeorExpenseArray.forEach((obj) => {
+    switch(new Date(obj.date).getMonth()) {
+      case 0:
+        monthlyAmount[0] += (+obj.amount)
+        break;
+      case 1:
+        monthlyAmount[1] += (+obj.amount)
+        break;
+      case 2:
+        monthlyAmount[2] += (+obj.amount)
+        break;
+      case 3:
+        monthlyAmount[3] += (+obj.amount)
+        break;
+      case 4:
+        monthlyAmount[4] += (+obj.amount)
+        break;
+      case 5:
+        monthlyAmount[5] += (+obj.amount)
+        break;
+      case 6:
+        monthlyAmount[6] += (+obj.amount)
+        break;
+      case 7:
+        monthlyAmount[7] += (+obj.amount)
+        break;
+      case 8:
+        monthlyAmount[8] += (+obj.amount)
+        break;
+      case 9:
+        monthlyAmount[9] += (+obj.amount)
+        break;
+      case 10:
+        monthlyAmount[10] += (+obj.amount)
+        break;
+      case 11:
+        monthlyAmount[11] += (+obj.amount)
+        break;
+      default:
+        break;
+    }
+  })
+
+  return monthlyAmount
+}
+
+export const MonthWiseData = (incomeorExpenseArray) => {
+  const res = filterArrayByMonth(incomeorExpenseArray)
+ 
+  return res;
 }

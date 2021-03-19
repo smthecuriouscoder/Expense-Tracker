@@ -266,7 +266,6 @@ class DashBoard extends Component{
     render() {
 		const { classes } = this.props;
 		const { 
-			isLoggedIn, 
 			showIncomeModal, 
 			showSavingsModal, 
 			showExpenseModal, 
@@ -274,7 +273,7 @@ class DashBoard extends Component{
 			expenses, 
 			estimatedSavings 
 		} = this.state;
-		const { email, profilePhoto, googleSignIn } = this.props.location.state;
+		const { email } = this.props.location.state;
 
 		let filteredIncome = income;
 		let filteredExpenses = expenses;
@@ -293,14 +292,14 @@ class DashBoard extends Component{
 				<Drawer 
 					info={this.props.location.state} 
 					highlighted={0}
-					isLoggedIn={isLoggedIn} 
+					isLoggedIn={this.props.isSignedIn} 
 					handleLogout={this.handleLogout}
 					handleLogoutSuccess={this.handleLogoutSuccess} 
 				/>
 				{
 					this.state.loading ? (
 					<div className={classes.circularProgressContainer}> 
-						<img src={spinner} style={{width: '100px', alignSelf: 'center'}} />
+						<img src={spinner} alt="spinner" style={{width: '100px', alignSelf: 'center'}} />
 					</div>) : (
 					<div className={classes.contentContainer}>
 					<main className={classes.content}>

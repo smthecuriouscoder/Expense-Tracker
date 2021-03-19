@@ -142,7 +142,7 @@ class SignUpForm extends Component{
             <div className={`${styles.signupblock} ${this.props.btn}`}>
                 <div className={`${styles.instructsignup}`}>
                     <motion.h1 initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} transition={{duration: 1}}>WELCOME!</motion.h1>
-                    <img src={bg} alt="background" style={{width: '100%', height: '50%'}} />
+                    <img src={bg} alt="background" className={styles.svgImage} />
                     <motion.h4 initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} transition={{duration: 1}} className={styles.desc}>Enter your personal details and start with us.</motion.h4>
                     <motion.button initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} whileTap={{scale: 1.3}} onClick={this.handleButton}>Sign Up</motion.button>
                 </div>

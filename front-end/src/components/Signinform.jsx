@@ -197,12 +197,12 @@ class SignInForm extends Component{
 
               <div className={`${styles.instructlogin}` }>
                   <h1>WELCOME BACK!</h1>
-                  <img src={bg} alt="background" style={{width: '100%', height: '50%'}} />
+                  <img src={bg} alt="background" className={styles.svgImage} />
                   <h4 className={styles.desc}>Let's have a watch on the expenses</h4>
                   <motion.button whileTap={{scale: 1.3}} onClick={this.handleButton}>Sign In</motion.button>
               </div>
 
-              <div className={`${styles.content1}`}>
+              <div className={`${styles.content}`}>
                   <img src={profile} alt="wallet" style={{ width: '80px'}} />
                   <h1>Create Account</h1>
 

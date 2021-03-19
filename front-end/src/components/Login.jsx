@@ -34,7 +34,6 @@ class LogIn extends Component {
             <SignInForm rotateForm={this.changeForm} handleParentCallBack={this.handleCall} status={this.state.isLoggedIn} btn={ this.state.isLoggedIn ? styles.rotateback : styles.rotatefront } />
           </div>
         </div>
-        {/* <img src={wave} alt="wavy background" style={{position: 'absolute', bottom: 0, zIndex: '-1'}} /> */}
         </>
     );
   }
