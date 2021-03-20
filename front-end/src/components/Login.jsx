@@ -27,7 +27,7 @@ class LogIn extends Component {
     return (
       <>
         <img src={wave} alt="bg" style={{position: 'fixed', zIndex:'-1', height: '100%'}} />
-        <div className={styles.outermostContainer}>
+        <div>
           <h1 className={styles.outermostContainerHead}>Expense Tracker</h1>
           <div className={styles.container}>
             <SignUpForm rotateForm={this.changeForm} handleParentCallBack={this.handleCall} status={this.state.isLoggedIn} btn={ this.state.isLoggedIn ? styles.rotatefront : styles.rotateback  } />

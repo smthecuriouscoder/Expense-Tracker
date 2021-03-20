@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import DisplayTable from './DisplayTable';
-import { Tooltip } from '@material-ui/core';
+import { Tooltip, TextField } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 import { getData, incomeExpenseArrayFx } from './getData';
 import { incomeDialog } from './apiurl.jsx';
 import DateFnsUtils from '@date-io/date-fns';
@@ -15,6 +16,7 @@ class FilterTable extends Component {
         super(props)
     
         this.state = {
+            searchItem: '',
             date: new Date().toGMTString()
         }
     }
@@ -42,6 +44,12 @@ class FilterTable extends Component {
         })
     }
 
+    handleSearchItemChange = e => {
+        this.setState({
+            searchItem: e.target.value
+        })
+    }
+
     handleFilterArrayChange = (row) => {
         const index = incomeExpenseArrayFx(this.props.income, this.props.expenses).findIndex( (obj) => (obj.type === row.type && obj.date === row.date) );
         const array = incomeExpenseArrayFx(this.props.income, this.props.expenses);
@@ -56,37 +64,60 @@ class FilterTable extends Component {
     }
 
     render() {
-        console.log("State: ",this.state);
-        console.log("Props: ",this.props);
+        let filteredArray = getData(this.props.income, this.props.expenses, this.state.date).filter( (val) => {
+            if(this.state.searchItem === ''){
+                return val;
+            }
+            else if(val.type.toLowerCase().includes(this.state.searchItem.toLowerCase())){
+                return val;
+            }
+        })
 
         return (
             <>
-                <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'baseline'}}>
-                    <Tooltip title="Filter">
-                        <FilterListOutlinedIcon />
-                    </Tooltip>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <DatePicker
+                <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap-reverse', marginBottom: '10px'}}>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <Tooltip title="Search">
+                            <SearchIcon style={{marginRight: '10px'}} />
+                        </Tooltip>
+                        <TextField
                             margin="dense"
-                            views={["year", "month"]}
-                            name="date"
-                            label="Year and Month"
-                            value={this.state.date}
-                            onChange={this.handleDateChange}
-                            inputVariant="outlined"
-                            animateYearScrolling
-                            disableFuture
-                            openTo="month"
-                            autoOk
-                            style={{
-                                margin: '15px 0 15px 10px',
-                                width: '10em'
-                            }}
+                            label="Search By Type" 
+                            type="search" 
+                            variant="outlined"
+                            value={this.state.searchItem}
+                            onChange={this.handleSearchItemChange}
+                            style={{width: '10em'}}
                         />
-                    </MuiPickersUtilsProvider>
+                    </div>
+
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <Tooltip title="Filter">
+                            <FilterListOutlinedIcon />
+                        </Tooltip>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <DatePicker
+                                margin="dense"
+                                views={["year", "month"]}
+                                name="date"
+                                label="Year and Month"
+                                value={this.state.date}
+                                onChange={this.handleDateChange}
+                                inputVariant="outlined"
+                                animateYearScrolling
+                                disableFuture
+                                openTo="month"
+                                autoOk
+                                style={{
+                                    margin: '15px 0 15px 10px',
+                                    width: '10em'
+                                }}
+                            />
+                        </MuiPickersUtilsProvider>
+                    </div>
                 </div>
                 <DisplayTable 
-                    incomeExpense={ getData(this.props.income, this.props.expenses, this.state.date)}
+                    incomeExpense={ filteredArray}
                     showDate={this.state.date}
                     handleFilterArrayChange={this.handleFilterArrayChange}
                 />
