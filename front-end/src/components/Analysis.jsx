@@ -113,7 +113,7 @@ class Analysis extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, userDetails } = this.props;
     const { income, expenses } = this.state;
 
     let filteredIncome = income;
@@ -129,7 +129,11 @@ class Analysis extends Component {
     return (
       <div className={classes.root}>
         <Drawer
-          info={this.props.location.state}
+          info={{
+            email: userDetails.email,
+            profilePhoto: userDetails.imageUrl,
+            googleSignIn: userDetails.googleId ? true : false,
+          }}
           highlighted={1}
           isLoggedIn={this.props.isSignedIn}
           handleLogout={this.handleLogout}

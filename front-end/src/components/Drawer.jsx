@@ -25,6 +25,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import cssstyles from "../styles/Dashboard.module.css";
+import NotificationDropDown from "./NotificationDropDown";
 
 const drawerWidth = 190;
 
@@ -75,6 +76,7 @@ class Drawer extends Component {
     super(props);
 
     this.state = {
+      hidden: true,
       selectedIndex: 0,
       mobileOpen: false,
       pop_open: false,
@@ -108,6 +110,12 @@ class Drawer extends Component {
     this.setState({
       pop_open: false,
       anchorEl: null,
+    });
+  };
+
+  handleDropDownToggle = () => {
+    this.setState({
+      hidden: !this.state.hidden,
     });
   };
 
@@ -203,7 +211,7 @@ class Drawer extends Component {
               <MenuIcon />
             </IconButton>
             <Typography variant='h5' noWrap className={cssstyles.pageHeader}>
-              Hi {info.email}
+              Hello {info.email}
             </Typography>
             <Tooltip title='Notifications'>
               <IconButton
@@ -211,9 +219,10 @@ class Drawer extends Component {
                   color: "white",
                   marginRight: "5px",
                 }}
+                onClick={this.handleDropDownToggle}
               >
                 <Badge
-                  badgeContent={3}
+                  badgeContent={0}
                   classes={{
                     badge: classes.customBadge,
                   }}
@@ -222,7 +231,7 @@ class Drawer extends Component {
                 </Badge>
               </IconButton>
             </Tooltip>
-
+            {this.state.hidden ? null : <NotificationDropDown />}
             <IconButton onClick={this.handleClick}>
               <Avatar alt={info.email} src={info.profilePhoto} />
             </IconButton>

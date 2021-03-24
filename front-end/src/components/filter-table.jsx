@@ -91,28 +91,30 @@ class FilterTable extends Component {
           style={{
             display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
             flexWrap: "wrap-reverse",
-            marginBottom: "10px",
+            margin: "10px 0",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Tooltip title='Search'>
-              <SearchIcon style={{ marginRight: "10px" }} />
-            </Tooltip>
-            <TextField
-              margin='dense'
-              label='Search By Type'
+          <div style={{ display: "flex", margin: "10px 0" }}>
+            <div style={{ color: "white", backgroundColor: "black", padding: "5px" }}>
+              <Tooltip title='Search'>
+                <SearchIcon />
+              </Tooltip>
+            </div>
+            <input
+              placeholder='Search By Type'
               type='search'
               variant='outlined'
               value={this.state.searchItem}
               onChange={this.handleSearchItemChange}
-              style={{ width: "10em" }}
+              style={{ width: "10em", padding: "5px", outline: "none" }}
             />
           </div>
 
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", margin: "10px 0" }}>
             <Tooltip title='Filter'>
-              <FilterListOutlinedIcon />
+              <FilterListOutlinedIcon style={{ marginRight: "10px" }} />
             </Tooltip>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <DatePicker
@@ -128,7 +130,6 @@ class FilterTable extends Component {
                 openTo='month'
                 autoOk
                 style={{
-                  margin: "15px 0 15px 10px",
                   width: "10em",
                 }}
               />
