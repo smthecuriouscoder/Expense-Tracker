@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Line } from "react-chartjs-2";
-import { Card, CardContent } from "@material-ui/core";
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { incomeExpenseArrayFx, filterArrayFx } from "./getData";
@@ -213,17 +213,18 @@ class DailyData extends Component {
             flexDirection: "column",
           }}
         >
+          <CardHeader
+            title={`Daily Record of ${monthNames[new Date(this.state.date).getMonth()]}`}
+            style={{ textAlign: "center" }}
+          />
           <CardContent style={{ alignItems: "center" }}>
             <div
               style={{
                 display: "flex",
-                justifyContent: "space-between",
-                flexWrap: "wrap",
-                width: "90%",
-                margin: "0 auto",
+                justifyContent: "center",
+                marginBottom: "10px",
               }}
             >
-              <h2>Daily Record of {monthNames[new Date(this.state.date).getMonth()]}</h2>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DatePicker
                   margin='dense'

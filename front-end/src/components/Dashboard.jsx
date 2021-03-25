@@ -281,7 +281,6 @@ class DashBoard extends Component {
   };
 
   render() {
-    console.log(this.props.userDetails.email);
     const { classes, userDetails } = this.props;
     const {
       showIncomeModal,

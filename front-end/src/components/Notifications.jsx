@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
+import React from "react";
+import PropTypes from "prop-types";
+import clsx from "clsx";
 import {
   Box,
   Button,
@@ -13,16 +13,16 @@ import {
   FormControlLabel,
   Grid,
   Typography,
-  makeStyles
-} from '@material-ui/core';
+  makeStyles,
+} from "@material-ui/core";
 
-const useStyles = makeStyles(({
+const useStyles = makeStyles({
   root: {},
   item: {
-    display: 'flex',
-    flexDirection: 'column'
-  }
-}));
+    display: "flex",
+    flexDirection: "column",
+  },
+});
 
 const Notifications = ({ className, setAlert, ...rest }) => {
   const classes = useStyles();
@@ -39,72 +39,50 @@ const Notifications = ({ className, setAlert, ...rest }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     setAlert("Saved Successfully");
-  }
+  };
 
   return (
-    <form
-      className={clsx(classes.root, className)}
-      {...rest}
-      onSubmit={handleSubmit}
-    >
-      <Card raised elevation={5} >
-        <CardHeader
-          subheader="Manage the notifications"
-          title="Notifications"
-        />
+    <form className={clsx(classes.root, className)} {...rest} onSubmit={handleSubmit}>
+      <Card raised elevation={5}>
+        <CardHeader subheader='Manage the notifications' title='Notifications' />
         <Divider />
         <CardContent>
-          <Grid
-            container
-            spacing={8}
-            wrap="wrap"
-          >
-            <Grid
-              className={classes.item}
-              item
-              md={7}
-              sm={7}
-              xs={12}
-            >
-              <Typography
-                color="textPrimary"
-                gutterBottom
-                variant="h6"
-              >
+          <Grid container spacing={8} wrap='wrap'>
+            <Grid className={classes.item} item md={7} sm={7} xs={12}>
+              <Typography color='textPrimary' gutterBottom variant='h6'>
                 Notifications
               </Typography>
               <FormControlLabel
-                control={(
-                  <Checkbox checked={state.checkedEmail} onChange={handleChange} name="checkedEmail" />
-                )}
-                label="Email"
+                control={
+                  <Checkbox
+                    checked={state.checkedEmail}
+                    onChange={handleChange}
+                    name='checkedEmail'
+                  />
+                }
+                label='Email'
               />
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={(
                   <Checkbox checked={state.checkedNotify} onChange={handleChange} name="checkedNotify" />
                 )}
                 label="Push Notifications"
-              />
-              
+              /> */}
             </Grid>
-            <Grid
-              className={classes.item}
-              item
-              md={5}
-              sm={6}
-              xs={12}
-            >
-              <Typography
-                color="textPrimary"
-                gutterBottom
-                variant="h6"
-              >
+            <Grid className={classes.item} item md={5} sm={6} xs={12}>
+              <Typography color='textPrimary' gutterBottom variant='h6'>
                 Report
               </Typography>
-	            <FormControlLabel
-        	      control={<Switch checked={state.checkedReport} onChange={handleChange} name="checkedReport" />}
-        	      label="Send Monthly Report"
-      	      />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={state.checkedReport}
+                    onChange={handleChange}
+                    name='checkedReport'
+                  />
+                }
+                label='Send Monthly Report'
+              />
               {/*<FormControlLabel
                 control={(
                   <Checkbox defaultChecked />
@@ -115,16 +93,8 @@ const Notifications = ({ className, setAlert, ...rest }) => {
           </Grid>
         </CardContent>
         <Divider />
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          p={2}
-        >
-          <Button
-	          type="submit"
-            color="primary"
-            variant="contained"
-          >
+        <Box display='flex' justifyContent='flex-end' p={2}>
+          <Button type='submit' color='primary' variant='contained'>
             Save
           </Button>
         </Box>
@@ -134,7 +104,7 @@ const Notifications = ({ className, setAlert, ...rest }) => {
 };
 
 Notifications.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default Notifications;

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Grid, Card, CardContent } from "@material-ui/core";
+import { Grid, Card, CardHeader, CardContent } from "@material-ui/core";
 import { Bar } from "react-chartjs-2";
-import { MonthWiseData, filterArrayByYearFx } from "./getData";
+import { MonthWiseData, filterArrayByYearFx, getMonthNames } from "./getData";
 import DateFnsUtils from "@date-io/date-fns";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 
@@ -29,24 +29,27 @@ class MonthlyData extends Component {
 
   render() {
     const filterIncomeArray = filterArrayByYearFx(this.props.income, this.state.date1);
-    const filterExpenseArray = filterArrayByYearFx(this.props.expenses, this.state.date2);
+    const filterExpenseArray = filterArrayByYearFx(this.props.expenses, this.state.date1);
     const months = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
+      "January",
+      "February",
+      "March",
+      "April",
       "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
     ];
+
     const income = MonthWiseData(filterIncomeArray);
     const expense = MonthWiseData(filterExpenseArray);
     const savings = [];
+    console.log(income, expense);
+
     for (let i = 0; i < income.length; i++) {
       savings.push(income[i] - expense[i]);
     }
@@ -56,14 +59,14 @@ class MonthlyData extends Component {
       datasets: [
         {
           label: "Income",
-          data: MonthWiseData(filterIncomeArray),
+          data: income,
           backgroundColor: "hsl(120, 82%, 33%)",
           borderColor: "black",
           borderWidth: 1,
         },
         {
           label: "Expense",
-          data: MonthWiseData(filterExpenseArray),
+          data: expense,
           backgroundColor: "red",
           borderColor: "black",
           borderWidth: 1,
@@ -86,6 +89,30 @@ class MonthlyData extends Component {
 
     const options = {
       maintainAspectRatio: false,
+      scales: {
+        yAxes: [
+          {
+            type: "linear",
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "Rs.",
+              fontColor: "black",
+              fontSize: 18,
+            },
+          },
+        ],
+        xAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: "Month",
+              fontColor: "black",
+              fontSize: 18,
+            },
+          },
+        ],
+      },
       tooltips: {
         callbacks: {
           label: (tooltipItem, data) => {
@@ -100,7 +127,6 @@ class MonthlyData extends Component {
       },
     };
 
-    console.log(savings);
     return (
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
@@ -137,23 +163,34 @@ class MonthlyData extends Component {
               <div style={{ width: "90%", height: "50vh", margin: "0 auto" }}>
                 <Bar data={data1} options={options} />
               </div>
+
+              {filterExpenseArray.length !== 0 ? (
+                <div style={{ width: "90%", margin: "10px auto", textAlign: "center" }}>
+                  <span style={{ fontWeight: "bolder" }}>Highest Expenses: </span>
+                  <span>
+                    Rs. {Math.max(...expense)} in{" "}
+                    {getMonthNames(expense, Math.max(...expense)).map(
+                      (val, i, arr) => ` ${val}${i !== arr.length - 1 ? ", " : "."}`
+                    )}
+                  </span>
+                </div>
+              ) : null}
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
           <Card raised>
+            <CardHeader title='Savings' style={{ textAlign: "center" }} />
             <CardContent>
-              <div
+              {/* <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  justifyContent: "flex-end",
                   flexWrap: "wrap",
                   width: "90%",
                   margin: "0 auto",
                 }}
               >
-                <h2>Savings</h2>
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                   <DatePicker
                     margin='dense'
@@ -171,11 +208,23 @@ class MonthlyData extends Component {
                     autoOk
                   />
                 </MuiPickersUtilsProvider>
-              </div>
+              </div> */}
 
               <div style={{ width: "90%", height: "50vh", margin: "0 auto" }}>
                 <Bar data={data2} options={options} />
               </div>
+
+              {savings.every((item) => item === 0) ? null : (
+                <div style={{ width: "90%", margin: "10px auto", textAlign: "center" }}>
+                  <span style={{ fontWeight: "bolder" }}>Highest Savings: </span>
+                  <span>
+                    Rs. {Math.max(...savings)} in{" "}
+                    {getMonthNames(savings, Math.max(...savings)).map(
+                      (val, i, arr) => ` ${val}${i !== arr.length - 1 ? ", " : "."}`
+                    )}
+                  </span>
+                </div>
+              )}
             </CardContent>
           </Card>
         </Grid>

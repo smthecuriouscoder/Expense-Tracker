@@ -16,6 +16,7 @@ export const filterArrayFx = (incomeExpenseArray, date) =>
     return null;
   });
 
+//function to filter income and expense array by year
 export const filterArrayByYearFx = (incomeorExpenseArray, date) =>
   incomeorExpenseArray.filter((obj) => {
     if (new Date(obj.date).getFullYear() === new Date(date).getFullYear()) {
@@ -93,4 +94,28 @@ export const MonthWiseData = (incomeorExpenseArray) => {
   const res = filterArrayByMonth(incomeorExpenseArray);
 
   return res;
+};
+
+export const getMonthNames = (arr, max) => {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let maxValues = [];
+  arr.forEach((val, i) => {
+    if (val === max) {
+      maxValues.push(months[i]);
+    }
+  });
+  return maxValues;
 };

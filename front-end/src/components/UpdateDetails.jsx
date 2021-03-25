@@ -49,6 +49,8 @@ const UpdateDetails = ({ className, userDetails, handleUpdateUserDetails, setAle
     }
   };
 
+  const isDisabled = userDetails.googleId ? true : false;
+
   return (
     <form className={clsx(classes.root, className)} {...rest}>
       <Card raised elevation={5}>
@@ -78,7 +80,7 @@ const UpdateDetails = ({ className, userDetails, handleUpdateUserDetails, setAle
         </CardContent>
         <Divider />
         <Box display='flex' justifyContent='flex-end' p={2}>
-          <Button color='primary' variant='contained' onClick={handleSubmit}>
+          <Button disabled={isDisabled} color='primary' variant='contained' onClick={handleSubmit}>
             Update
           </Button>
         </Box>
