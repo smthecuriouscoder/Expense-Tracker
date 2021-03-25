@@ -1,6 +1,7 @@
 /node_modules
 /.pnp
 .pnp.js
+.env
 
 /front-end/node_modules
 /front-end/package-lock.json
