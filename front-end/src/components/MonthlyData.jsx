@@ -48,7 +48,6 @@ class MonthlyData extends Component {
     const income = MonthWiseData(filterIncomeArray);
     const expense = MonthWiseData(filterExpenseArray);
     const savings = [];
-    console.log(income, expense);
 
     for (let i = 0; i < income.length; i++) {
       savings.push(income[i] - expense[i]);

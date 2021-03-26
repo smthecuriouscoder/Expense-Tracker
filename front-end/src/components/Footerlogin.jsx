@@ -22,7 +22,7 @@ class FooterLogIn extends Component {
 
         <div>
           <GoogleLogin
-            clientId='636027814315-mmq95unab27g2qj1qfdkd4eub10e24tj.apps.googleusercontent.com'
+            clientId={process.env.REACT_APP_GOOGLE_LOGIN_CLIENTID}
             theme='dark'
             onSuccess={this.onSuccess}
             onFailure={this.onFailure}

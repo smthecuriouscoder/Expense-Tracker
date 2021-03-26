@@ -1,37 +1,37 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient } = require("mongodb");
 const constants = {
-    userName: 'mayank',
-    password: 'Fkyvhn@24',
-    db_xero: 'db_xero'
-}
+  userName: "mayank",
+  password: "Fkyvhn@24",
+  db_xero: "db_xero",
+};
 const uri = `mongodb+srv://${constants.userName}:${constants.password}@cluster0.png3e.mongodb.net/${constants.db_xero}`;
-console.log(uri)
+console.log(uri);
 
 const client = new MongoClient(uri, { useUnifiedTopology: true });
 
-main()
+main();
 
 async function main() {
+  try {
+    await client.connect();
 
-    try {
-        await client.connect();
-
-        await listDatabases(client);
-
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
+    await listDatabases(client);
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
 }
 
-
 async function listDatabases(client) {
-    databasesList = await client.db().admin().listDatabases();
+  databasesList = await client.db().admin().listDatabases();
 
-    const cursor = await client.db("mayank_db").collection("testing_collection").find({ name: 'Mayank' })
-    const results = await cursor.toArray();
-    console.log(results);
-};
+  const cursor = await client
+    .db("mayank_db")
+    .collection("testing_collection")
+    .find({ name: "Mayank" });
+  const results = await cursor.toArray();
+  console.log(results);
+}
 
-exports.client = client
+exports.client = client;
