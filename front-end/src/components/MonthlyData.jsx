@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { Grid, Card, CardHeader, CardContent } from "@material-ui/core";
 import { Bar } from "react-chartjs-2";
-import { MonthWiseData, filterArrayByYearFx, getMonthNames } from "./getData";
+import { Grid, Card, CardHeader, CardContent } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { MonthWiseData, filterArrayByYearFx, getMonthNames } from "./getData";
 
 class MonthlyData extends Component {
   constructor(props) {
@@ -11,19 +11,12 @@ class MonthlyData extends Component {
 
     this.state = {
       date1: new Date().toUTCString(),
-      date2: new Date().toUTCString(),
     };
   }
 
   handleDate1Change = (date) => {
     this.setState({
       date1: date ? date.toUTCString() : null,
-    });
-  };
-
-  handleDate2Change = (date) => {
-    this.setState({
-      date2: date ? date.toUTCString() : null,
     });
   };
 
@@ -181,34 +174,6 @@ class MonthlyData extends Component {
           <Card raised>
             <CardHeader title='Savings' style={{ textAlign: "center" }} />
             <CardContent>
-              {/* <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  flexWrap: "wrap",
-                  width: "90%",
-                  margin: "0 auto",
-                }}
-              >
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <DatePicker
-                    margin='dense'
-                    views={["year"]}
-                    name='date'
-                    label='Year'
-                    value={this.state.date2}
-                    onChange={this.handleDate2Change}
-                    inputVariant='outlined'
-                    animateYearScrolling
-                    disableFuture
-                    style={{
-                      width: "6em",
-                    }}
-                    autoOk
-                  />
-                </MuiPickersUtilsProvider>
-              </div> */}
-
               <div style={{ width: "90%", height: "50vh", margin: "0 auto" }}>
                 <Bar data={data2} options={options} />
               </div>

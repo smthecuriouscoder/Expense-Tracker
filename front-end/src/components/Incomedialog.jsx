@@ -12,7 +12,7 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import axios from "axios";
-import { incomeDialog } from "./apiurl.jsx";
+import { incomeDialog } from "./apiurl.js";
 import { incomeCategories } from "../constants/categories";
 import { PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
 import { useSpeechContext } from "@speechly/react-client";

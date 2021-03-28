@@ -3,11 +3,12 @@ import DisplayTable from "./DisplayTable";
 import { Tooltip } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { getData, incomeExpenseArrayFx } from "./getData";
-import { incomeDialog } from "./apiurl.jsx";
+import { incomeDialog } from "./apiurl.js";
 import DateFnsUtils from "@date-io/date-fns";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import axios from "axios";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
+import { CSVLink } from "react-csv";
 
 let flag = false;
 
@@ -84,6 +85,31 @@ class FilterTable extends Component {
         }
       }
     );
+    const incomeExpenseArray = filteredArray.map((obj) => {
+      return {
+        type: obj.type,
+        date: obj.date.substr(0, 16),
+        amount: "Rs. " + +obj.amount,
+        category: obj.category,
+        description: obj.description,
+        account: obj.account,
+      };
+    });
+
+    const headers = [
+      { label: "Type", key: "type" },
+      { label: "Date", key: "date" },
+      { label: "Amount", key: "amount" },
+      { label: "Category", key: "category" },
+      { label: "Description", key: "description" },
+      { label: "Type of Account", key: "account" },
+    ];
+
+    const csvReport = {
+      filename: "Income_Expense_Report.csv",
+      headers: headers,
+      data: incomeExpenseArray,
+    };
 
     return (
       <>
@@ -141,6 +167,23 @@ class FilterTable extends Component {
           showDate={this.state.date}
           handleFilterArrayChange={this.handleFilterArrayChange}
         />
+        {incomeExpenseArray.length !== 0 && (
+          <CSVLink
+            {...csvReport}
+            style={{
+              backgroundColor: "#ffbb39",
+              color: "white",
+              padding: "14px 25px",
+              textAlign: "center",
+              textDecoration: "none",
+              borderRadius: "5px",
+              display: "inline-block",
+              marginTop: "15px",
+            }}
+          >
+            Export
+          </CSVLink>
+        )}
       </>
     );
   }

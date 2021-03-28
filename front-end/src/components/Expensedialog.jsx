@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, TextField, Divider } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import {
+  Button,
+  TextField,
+  Divider,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -9,10 +10,11 @@ import {
   MenuItem,
   InputAdornment,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import axios from "axios";
-import { expenseDialog } from "./apiurl.jsx";
+import { expenseDialog } from "./apiurl.js";
 import { expenseCategories } from "../constants/categories";
 import { PushToTalkButton, ErrorPanel } from "@speechly/react-ui";
 import { useSpeechContext } from "@speechly/react-client";

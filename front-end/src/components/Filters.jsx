@@ -3,23 +3,6 @@ import { Select, MenuItem, Tooltip } from "@material-ui/core";
 import FilterListOutlinedIcon from "@material-ui/icons/FilterListOutlined";
 
 class Filters extends Component {
-  //   constructor(props){
-  //     super(props);
-
-  //     this.state={
-  //     	account: 'All Accounts',
-  // 		duration: 'monthly'
-  //     };
-  //   }
-
-  //   handleChange = e => {
-  //     this.setState({
-  //       [e.target.name]: e.target.value
-  //     }, () => {
-  // 		this.props.handleFilterArrayByType(e.target.value);
-  // 	})
-  //   }
-
   handleChange = (e) => {
     this.props.handleFilterArrayByType(e.target.value);
   };

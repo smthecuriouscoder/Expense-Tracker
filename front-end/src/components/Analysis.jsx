@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import Drawer from "./Drawer";
-import DailyData from "./daily-data";
-import { withStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from "./apiurl.jsx";
-import { filterArrayByType } from "./getData.js";
-import Filters from "./Filters";
 import spinner from "../assets/circles-menu-1.gif";
+import Drawer from "./Drawer";
+import Filters from "./Filters";
 import MonthlyData from "./MonthlyData";
+import DailyData from "./daily-data";
+import axios from "axios";
+import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from "./apiurl.js";
+import { filterArrayByType } from "./getData.js";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = (theme) => ({
   root: {

@@ -13,7 +13,7 @@ class App extends Component {
 
     this.state = {
       isSignedIn: JSON.parse(sessionStorage.getItem("status")) || false, //for altering the behaviour of 'Get Started' button and 'Log In' link
-      user: JSON.parse(sessionStorage.getItem("user")) || {},
+      user: JSON.parse(sessionStorage.getItem("user")) || {}, //for storing the logged in user details
     };
   }
 

@@ -1,21 +1,21 @@
 import React, { Component } from "react";
+import spinner from "../assets/circles-menu-1.gif";
 import Drawer from "./Drawer";
 import Filters from "./Filters";
-import IncomeDialog from "./Incomedialog";
-import EstimatedSavingsDialog from "./Estimatedsavingsdialog";
-import ExpenseDialog from "./Expensedialog";
+import IncomeDialog from "./IncomeDialog";
+import EstimatedSavingsDialog from "./EstimatedSavingsDialog";
+import ExpenseDialog from "./ExpenseDialog";
 import CardCollection from "./CardCollection";
 import FilterTable from "./filter-table";
 import Notifier from "./Notifier";
 import { Button, Snackbar } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import cssstyles from "../styles/Dashboard.module.css";
-import { withStyles } from "@material-ui/core/styles";
 import { green, red } from "@material-ui/core/colors";
+import { withStyles } from "@material-ui/core/styles";
+import cssstyles from "../styles/Dashboard.module.css";
 import axios from "axios";
-import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from "./apiurl.jsx";
+import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from "./apiurl.js";
 import { filterArrayByType } from "./getData.js";
-import spinner from "../assets/circles-menu-1.gif";
 //import { sendEmail } from './apiurl.jsx';
 
 const styles = (theme) => ({
@@ -206,15 +206,9 @@ class DashBoard extends Component {
       return (accumulator += currentValue ? parseInt(currentValue.amount) : 0);
     }, 0);
 
-    if (income > 0) {
-      this.setState({
-        showSavingsModal: true,
-      });
-    } else {
-      this.setState({
-        showSnack: true,
-      });
-    }
+    this.setState({
+      showSavingsModal: true,
+    });
   };
 
   handleExpenseClick = () => {

@@ -11,7 +11,7 @@ import {
   TextField,
   makeStyles,
 } from "@material-ui/core";
-import { updateDetails } from "./apiurl.jsx";
+import { updateDetails } from "./apiurl.js";
 import axios from "axios";
 
 const useStyles = makeStyles({
