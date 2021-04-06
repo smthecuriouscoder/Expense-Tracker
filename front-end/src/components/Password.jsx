@@ -48,6 +48,7 @@ const Password = ({ className, email, setAlert, ...rest }) => {
       ? (errors.passwordError =
           value.length < 6 ? "Password length must be greater than 5 characters" : "")
       : (errors.passwordError = "");
+
     event.target.name === "confirm"
       ? (errors.confirmPasswordError =
           value.length < 6 ? "Password length must be greater than 5 characters" : "")
@@ -64,6 +65,7 @@ const Password = ({ className, email, setAlert, ...rest }) => {
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     const { password, confirm, errors } = values;
 
     if (password.length === 0) {

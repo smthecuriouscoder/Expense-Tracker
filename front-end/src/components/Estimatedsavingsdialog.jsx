@@ -81,9 +81,7 @@ class EstimatedSavingsDialog extends Component {
   };
 
   handleSubmit = (e) => {
-    if (e) {
-      e.preventDefault();
-    }
+    e && e.preventDefault();
 
     if (
       +this.state.form.amount <

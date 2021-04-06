@@ -11,7 +11,6 @@ import profile from "../assets/undraw_profile_pic_ic5t.svg";
 import bg from "../assets/bg.svg";
 
 let errors;
-
 const emailRegex = RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
 
 const formValid = (errors) => {
@@ -58,7 +57,6 @@ class SignUpForm extends Component {
   };
 
   handleEmail = (event) => {
-    event.preventDefault();
     const value = event.target.value;
     errors = this.state.errors;
     errors.emailError = emailRegex.test(value) ? "" : "Please enter a valid email address";
@@ -75,7 +73,6 @@ class SignUpForm extends Component {
   };
 
   handlePassword = (event) => {
-    event.preventDefault();
     const value = event.target.value;
     errors = this.state.errors;
     errors.passwordError =
