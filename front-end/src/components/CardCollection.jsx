@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent } from "@material-ui/core";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import IncomeExpenseChart from "./IncomeExpenseChart";
 import ExpenseChart from "./ExpenseChart";
 import SavingsProgress from "./SavingsProgress";
@@ -62,14 +62,17 @@ function CardCollection({ income, expenses, estimatedSavings }) {
       <div className={cssstyles.papers}>
         <Card raised elevation={23} className={cssstyles.card}>
           <CardContent className={cssstyles.cardContent}>
-            <h2 style={{ textAlign: "center" }}>Stats</h2>
+            <Typography variant='h2' align='center' style={{ margin: "20px 0" }}>
+              Stats
+            </Typography>
             <div className={cssstyles.incExpContainer}>
               <div className={cssstyles.handleOverflow}>
-                <h4 className={cssstyles.incomeRs}>Income</h4>
+                {/* <h4 className={cssstyles.incomeRs}>Income</h4> */}
+                <Typography variant='subtitle1'>INCOME</Typography>
                 <p className={`${cssstyles.money} ${cssstyles.plus}`}>Rs. {totalIncome}</p>
               </div>
               <div className={cssstyles.handleOverflow}>
-                <h4 className={cssstyles.incomeRs}>Expense</h4>
+                <Typography variant='subtitle1'>EXPENSE</Typography>
                 <p className={`${cssstyles.money} ${cssstyles.minus}`}>Rs. {totalExpense}</p>
               </div>
             </div>
@@ -84,7 +87,9 @@ function CardCollection({ income, expenses, estimatedSavings }) {
 
         <Card raised elevation={23} className={cssstyles.card} style={{ flexGrow: "5" }}>
           <CardContent className={cssstyles.cardContent}>
-            <h2 style={{ textAlign: "center" }}>CategoryWise Expenses</h2>
+            <Typography variant='h2' align='center' style={{ margin: "20px 0" }}>
+              CategoryWise Expenses
+            </Typography>
             <CallExpChart expensesArray={expenses} />
           </CardContent>
         </Card>

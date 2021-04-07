@@ -8,7 +8,8 @@ import ExpenseDialog from "./ExpenseDialog";
 import CardCollection from "./CardCollection";
 import FilterTable from "./filter-table";
 import Notifier from "./Notifier";
-import { Button, Snackbar } from "@material-ui/core";
+import { Button, Snackbar, Typography } from "@material-ui/core";
+import { createMuiTheme, responsiveFontSizes, ThemeProvider } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import { green, red } from "@material-ui/core/colors";
 import { withStyles } from "@material-ui/core/styles";
@@ -57,6 +58,22 @@ const styles = (theme) => ({
     },
   },
 });
+let theme = createMuiTheme({
+  typography: {
+    h1: {
+      fontSize: "2rem",
+      fontWeight: "bold",
+    },
+    h2: {
+      fontSize: "1.5rem",
+      fontWeight: "bold",
+    },
+    subtitle1: {
+      fontWeight: "bold",
+    },
+  },
+});
+theme = responsiveFontSizes(theme);
 
 let incomeDetails = null;
 let estimatedSavings = null;
@@ -324,7 +341,12 @@ class DashBoard extends Component {
             <main className={classes.content}>
               <div className={classes.toolbar} />
               <div>
-                <h1 style={{ marginTop: 0 }}>Overview</h1>
+                {/* <h1 style={{ marginTop: 0 }}>Overview</h1> */}
+                <ThemeProvider theme={theme}>
+                  <Typography variant='h1' gutterBottom>
+                    Overview
+                  </Typography>
+                </ThemeProvider>
                 <div className={cssstyles.container}>
                   <Filters
                     account={this.state.account}

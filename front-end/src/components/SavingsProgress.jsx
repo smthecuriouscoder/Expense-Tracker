@@ -1,6 +1,6 @@
-import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import React from "react";
+import clsx from "clsx";
+import PropTypes from "prop-types";
 import {
   Avatar,
   Box,
@@ -10,19 +10,17 @@ import {
   LinearProgress,
   Typography,
   makeStyles,
-  colors
-} from '@material-ui/core';
-import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
+  colors,
+} from "@material-ui/core";
+import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 
 const useStyles = makeStyles(() => ({
   root: {
-    height: '100%'
+    height: "100%",
   },
   avatar: {
     backgroundColor: colors.orange[600],
-    height: 56,
-    width: 56
-  }
+  },
 }));
 
 const SavingsProgress = ({ className, totalEstimatedSavings, Balance, status, ...rest }) => {
@@ -30,42 +28,23 @@ const SavingsProgress = ({ className, totalEstimatedSavings, Balance, status, ..
   let percentofSavings;
   let savingsAmount = totalEstimatedSavings;
 
-  if(Balance >= savingsAmount){
-	  percentofSavings=100;
-  }
-  else if(Balance < savingsAmount){
-    percentofSavings=0;
-  }
-  else{
-    percentofSavings = (Balance/totalEstimatedSavings)*100;
+  if (Balance >= savingsAmount) {
+    percentofSavings = 100;
+  } else if (Balance < savingsAmount) {
+    percentofSavings = 0;
+  } else {
+    percentofSavings = (Balance / totalEstimatedSavings) * 100;
   }
   return (
-    <Card
-      raised
-      style={status}
-      className={clsx(classes.root, className)}
-      {...rest}
-    >
+    <Card raised style={status} className={clsx(classes.root, className)} {...rest}>
       <CardContent>
-        <Grid
-          container
-          justify="space-between"
-          spacing={3}
-        >
+        <Grid container justify='space-between' spacing={3} wrap='nowrap'>
           <Grid item>
-            <Typography
-              color="textSecondary"
-              gutterBottom
-              variant="h6"
-            >
+            <Typography color='textSecondary' gutterBottom variant='h6'>
               Your Target Savings:
             </Typography>
-            <Typography
-              color="textPrimary"
-              variant="h5"
-	            style={{color: 'white'}}
-            >
-		          Rs. {totalEstimatedSavings} {/*({targetPercentage} %)*/}
+            <Typography color='textPrimary' variant='h5' style={{ color: "white" }}>
+              Rs. {totalEstimatedSavings} {/*({targetPercentage} %)*/}
             </Typography>
           </Grid>
           <Grid item>
@@ -74,44 +53,25 @@ const SavingsProgress = ({ className, totalEstimatedSavings, Balance, status, ..
             </Avatar>
           </Grid>
         </Grid>
-	      <Box mt={1}>
-	        <Typography
-              color="textSecondary"
-              gutterBottom
-              variant="h6"
-          >
-             You Saved:
+        <Box mt={1}>
+          <Typography color='textSecondary' gutterBottom variant='h6'>
+            You Saved:
           </Typography>
-	        <Typography
-              color="textPrimary"
-              variant="h5"
-	            style={{color: 'white'}}
-          >
-		        Rs. {Balance}
+          <Typography color='textPrimary' variant='h5' style={{ color: "white" }}>
+            Rs. {Balance}
           </Typography>
-	      </Box>
+        </Box>
         <Box mt={3}>
-	        <Grid
-            container
-	          spacing={2}
-	          alignItems="center"
-          >
+          <Grid container spacing={2} alignItems='center'>
             <Grid item xs={10}>
-              <LinearProgress
-                value={percentofSavings}
-                variant="determinate"
-              />
+              <LinearProgress value={percentofSavings} variant='determinate' />
             </Grid>
-            <Grid item xs={1} >
-	          <Typography
-              color="textPrimary"
-              variant="h6"
-	            style={{color: 'white'}}
-            >
-		          {Math.round(percentofSavings)}%
-            </Typography>
-	        </Grid>
-	        </Grid>
+            <Grid item xs={1}>
+              <Typography color='textPrimary' variant='h6' style={{ color: "white" }}>
+                {Math.round(percentofSavings)}%
+              </Typography>
+            </Grid>
+          </Grid>
         </Box>
       </CardContent>
     </Card>
@@ -119,7 +79,7 @@ const SavingsProgress = ({ className, totalEstimatedSavings, Balance, status, ..
 };
 
 SavingsProgress.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default SavingsProgress;

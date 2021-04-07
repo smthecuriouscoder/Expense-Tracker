@@ -22,6 +22,7 @@ function getDetails() {
   });
 }
 
+//to get the status whether the user has added any expenses or not
 function getStatus() {
   getUsers().then((data) => {
     users = data;
