@@ -64,8 +64,9 @@ const ExpenseDialog = (props) => {
       mounted.current = true;
     } else {
       if (segment) {
-        if (segment.isFinal && segment.intent.intent === "submit_transaction") {
-          return handleSubmit();
+        if (segment.isFinal && segment.intent.intent === "create_transaction") {
+          if (state.form.amount > 0) return handleSubmit();
+          else alert("Please enter amount");
         } else if (segment.isFinal && segment.intent.intent === "cancel_transaction") {
           return handleClose();
         } else if (segment.isFinal && segment.intent.intent === "add_income") {
@@ -139,6 +140,10 @@ const ExpenseDialog = (props) => {
         ...state.form,
       },
     });
+    if (segment !== undefined) {
+      segment.words = [];
+    }
+
     props.parentCallback(expenseObject);
     expenseObject = null;
   };
@@ -198,7 +203,7 @@ const ExpenseDialog = (props) => {
             Try saying: <br />
             Add expense of Rs. 100 in category Fruits of Personal Account for today...
           </p>
-          {segment && (
+          {segment && segment.words.length !== 0 && (
             <p
               style={{
                 margin: "10px",

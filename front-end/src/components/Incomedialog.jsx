@@ -62,8 +62,9 @@ const IncomeDialog = (props) => {
       mounted.current = true;
     } else {
       if (segment) {
-        if (segment.isFinal && segment.intent.intent === "submit_transaction") {
-          return handleSubmit();
+        if (segment.isFinal && segment.intent.intent === "create_transaction") {
+          if (state.form.amount > 0) return handleSubmit();
+          else alert("Please enter amount");
         } else if (segment.isFinal && segment.intent.intent === "cancel_transaction") {
           return handleClose();
         } else if (segment.isFinal && segment.intent.intent === "add_expense") {
@@ -74,7 +75,7 @@ const IncomeDialog = (props) => {
         segment.entities.forEach((s) => {
           const category = `${s.value.charAt(0)}${s.value.slice(1).toLowerCase()}`;
           const account = `${s.value.charAt(0)}${s.value.slice(1).toLowerCase()}`;
-          console.log(segment.entities);
+
           switch (s.type) {
             case "amount":
               setState({
@@ -137,6 +138,10 @@ const IncomeDialog = (props) => {
         ...state.form,
       },
     });
+    if (segment !== undefined) {
+      segment.words = [];
+    }
+
     props.parentCallback(incomeObject);
     incomeObject = null;
   };
@@ -196,7 +201,7 @@ const IncomeDialog = (props) => {
             Try saying: <br />
             Add income of Rs. 5000 in category Salary of Personal Account for Monday...
           </p>
-          {segment && (
+          {segment && segment.words.length !== 0 && (
             <p
               style={{
                 margin: "10px",
