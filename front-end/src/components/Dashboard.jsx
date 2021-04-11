@@ -322,6 +322,7 @@ class DashBoard extends Component {
 
         <Drawer
           info={{
+            name: userDetails.name,
             email: userDetails.email,
             profilePhoto: userDetails.imageUrl,
             googleSignIn: userDetails.googleId ? true : false,

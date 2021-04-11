@@ -132,6 +132,7 @@ class Drawer extends Component {
           history.replace({
             pathname: "/dashboard",
             state: {
+              name: info.name,
               email: info.email,
               profilePhoto: info.profilePhoto,
               googleSignIn: info.googleSignIn,
@@ -147,6 +148,7 @@ class Drawer extends Component {
           history.replace({
             pathname: "/analysis",
             state: {
+              name: info.name,
               email: info.email,
               profilePhoto: info.profilePhoto,
               googleSignIn: info.googleSignIn,
@@ -162,6 +164,7 @@ class Drawer extends Component {
           history.replace({
             pathname: "/settings",
             state: {
+              name: info.name,
               email: info.email,
               profilePhoto: info.profilePhoto,
               googleSignIn: info.googleSignIn,
@@ -211,7 +214,7 @@ class Drawer extends Component {
               <MenuIcon />
             </IconButton>
             <Typography variant='h5' noWrap className={cssstyles.pageHeader}>
-              Hello {info.email}
+              Hello {info.name}
             </Typography>
             <Tooltip title='Notifications'>
               <IconButton

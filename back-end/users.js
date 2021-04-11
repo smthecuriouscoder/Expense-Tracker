@@ -1,4 +1,5 @@
 const client = require("./client.js");
+require("dotenv").config();
 const nodemailer = require("nodemailer");
 
 let users = []; //array to store all the users
@@ -94,11 +95,12 @@ const filterArrayFx = (incomeExpenseArray, date) =>
     return null;
   });
 
+//Step 1 of nodemailer
 let transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "",
-    pass: "",
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD,
   },
 });
 
@@ -126,23 +128,23 @@ function sendReportByEmail(userObject, transactionArray) {
   for (const { type, date, amount, category, description, account } of transaction) {
     message +=
       "<tr>" +
-      '<td  style="border: 1px solid black; border-collapse: collapse;">' +
+      '<td  style="border: 1px solid black; border-collapse: collapse; min-width: 100px;">' +
       type +
       "</td>" +
-      '<td style="border: 1px solid black; border-collapse: collapse;">' +
+      '<td style="border: 1px solid black; border-collapse: collapse; min-width: 100px;">' +
       date.split(" ").slice(0, 4).join(" ") +
       "</td>" +
-      '<td style="border: 1px solid black; border-collapse: collapse;">' +
+      '<td style="border: 1px solid black; border-collapse: collapse; min-width: 100px;">' +
       "Rs. " +
-      amount +
+      parseInt(amount) +
       "</td>" +
-      '<td style="border: 1px solid black; border-collapse: collapse;">' +
+      '<td style="border: 1px solid black; border-collapse: collapse; min-width: 100px;">' +
       (category ? category : "-") +
       "</td>" +
-      '<td style="border: 1px solid black; border-collapse: collapse;">' +
+      '<td style="border: 1px solid black; border-collapse: collapse; min-width: 100px;">' +
       (description ? description : "-") +
       "</td>" +
-      '<td style="border: 1px solid black; border-collapse: collapse;">' +
+      '<td style="border: 1px solid black; border-collapse: collapse; min-width: 100px;">' +
       account +
       "</td>" +
       "</tr>";
@@ -154,13 +156,15 @@ function sendReportByEmail(userObject, transactionArray) {
     '<span style="font-weight: bold;">Regards,</span> <br />' +
     "<span>Expense Tracker</span>";
 
+  //Step 2 of nodemailer
   var mail = {
-    from: "",
+    from: process.env.EMAIL,
     to: email,
     subject: "Monthly Report",
     html: message,
   };
 
+  //Step 3 of nodemailer
   transporter.sendMail(mail, (err, data) => {
     if (err) {
       console.log("Mail not sent");
@@ -186,7 +190,7 @@ function sendNotificationByEmail(userObject) {
     "<span>Expense Tracker</span>";
 
   var mail = {
-    from: "",
+    from: process.env.EMAIL,
     to: email,
     subject: "Reminder",
     html: message,

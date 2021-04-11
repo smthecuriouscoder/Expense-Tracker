@@ -30,7 +30,7 @@ class App extends Component {
     this.setState({
       user: {
         ...this.state.user,
-        email: data.email,
+        //email: data.email,
       },
     });
     sessionStorage.setItem("user", JSON.stringify(this.state.user));

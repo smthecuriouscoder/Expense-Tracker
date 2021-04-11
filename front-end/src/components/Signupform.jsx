@@ -124,10 +124,10 @@ class SignUpForm extends Component {
               isSignedIn: true,
             };
           });
-          this.props.handleParentCallBack(true, res.data.request);
+          this.props.handleParentCallBack(true, res.data.userDetails);
         },
         (error) => {
-          console.log("invalid user or password");
+          alert("Invalid email or password");
         }
       );
     }

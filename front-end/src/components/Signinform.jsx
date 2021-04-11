@@ -173,17 +173,23 @@ class SignInForm extends Component {
         password: password,
       };
 
-      axios.post(signup, userDetails).then((res) => {
-        console.log(res.data);
-        alert("Account Created Successfully");
+      axios
+        .post(signup, userDetails)
+        .then((res) => {
+          console.log(res.data, "Result");
+          alert("Account Created Successfully");
 
-        this.setState(() => {
-          return {
-            isSignedIn: true,
-          };
+          this.setState(() => {
+            return {
+              isSignedIn: true,
+            };
+          });
+          this.props.handleParentCallBack(this.state.isSignedIn, res.data.userDetails);
+        })
+        .catch((err) => {
+          console.log(err.response.data, "Error");
+          alert(err.response.data.error);
         });
-        this.props.handleParentCallBack(this.state.isSignedIn, res.data.userDetails);
-      });
     }
   };
 

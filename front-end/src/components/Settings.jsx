@@ -57,6 +57,7 @@ class Settings extends Component {
       <div className={classes.root}>
         <Drawer
           info={{
+            name: userDetails.name,
             email: userDetails.email,
             profilePhoto: userDetails.imageUrl,
             googleSignIn: userDetails.googleId ? true : false,
