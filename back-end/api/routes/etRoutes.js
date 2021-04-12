@@ -214,8 +214,6 @@ router.post("/estimatedSavingsDialog", (req, res, next) => {
 });
 
 async function postAmount(object) {
-  await client.client.connect();
-
   const cursor = await client.client
     .db("expense_tracker")
     .collection("expense_collection")
@@ -224,8 +222,6 @@ async function postAmount(object) {
 }
 
 async function deleteData(object) {
-  await client.client.connect();
-
   await client.client
     .db("expense_tracker")
     .collection("expense_collection")
@@ -234,14 +230,10 @@ async function deleteData(object) {
 }
 
 async function updateDetails() {
-  await client.client.connect();
-
   await client.client.db("expense_tracker").collection("user_collection").updateOne();
 }
 
 async function getExpense(object) {
-  await client.client.connect();
-
   console.log(object.type, "object.type");
   const cursor = await client.client
     .db("expense_tracker")
@@ -253,8 +245,6 @@ async function getExpense(object) {
 }
 
 async function getArray(object) {
-  await client.client.connect();
-
   const cursor = await client.client
     .db("expense_tracker")
     .collection("expense_collection")

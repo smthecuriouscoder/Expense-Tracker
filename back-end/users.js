@@ -41,8 +41,6 @@ function getStatus() {
 }
 
 async function getTodayExpenses(obj) {
-  await client.client.connect();
-
   const cursor = await client.client
     .db("expense_tracker")
     .collection("expense_collection")
@@ -60,8 +58,6 @@ async function getTodayExpenses(obj) {
 }
 
 async function getUsers() {
-  await client.client.connect();
-
   const cursor = await client.client.db("expense_tracker").collection("user_collection").find({});
   const results = await cursor.toArray();
 
@@ -69,8 +65,6 @@ async function getUsers() {
 }
 
 async function getTransactions(obj) {
-  await client.client.connect();
-
   const cursor = await client.client
     .db("expense_tracker")
     .collection("expense_collection")

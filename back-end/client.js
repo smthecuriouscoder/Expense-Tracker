@@ -7,7 +7,10 @@ const constants = {
 const uri = `mongodb+srv://${constants.userName}:${constants.password}@cluster0.png3e.mongodb.net/${constants.db_xero}`;
 console.log(uri);
 
-const client = new MongoClient(uri, { useUnifiedTopology: true });
+const client = new MongoClient(uri, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+});
 
 main();
 
@@ -18,9 +21,10 @@ async function main() {
     await listDatabases(client);
   } catch (e) {
     console.error(e);
-  } finally {
-    await client.close();
   }
+  // finally {
+  //   await client.close();
+  // }
 }
 
 async function listDatabases(client) {

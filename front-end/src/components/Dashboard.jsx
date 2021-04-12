@@ -105,6 +105,7 @@ class DashBoard extends Component {
     // setInterval(() => {
     //   if (new Date().getHours() === 20) console.log("Hello");
     // }, 1000);
+
     const [incomeData, expenseData, estimatedSavingsData] = await axios.all([
       axios
         .post(

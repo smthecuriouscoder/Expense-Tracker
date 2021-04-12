@@ -119,12 +119,16 @@ class SignUpForm extends Component {
           console.log(res.data);
           localStorage.setItem("token", res.data.token);
 
-          this.setState(() => {
-            return {
-              isSignedIn: true,
-            };
-          });
-          this.props.handleParentCallBack(true, res.data.userDetails);
+          this.setState(
+            () => {
+              return {
+                isSignedIn: true,
+              };
+            },
+            () => {
+              this.props.handleParentCallBack(true, res.data.userDetails);
+            }
+          );
         },
         (error) => {
           alert("Invalid email or password");

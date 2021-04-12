@@ -16,11 +16,11 @@ router.post("/", (req, res, next) => {
     sub: req.body.email, // The UID of the user in your system
     scope: "self",
   };
-
   var jwt = nJwt.create(claims, signingKey);
 
   var email = req.body.email;
   var password = req.body.password;
+
   signIn(email, password).then((obj) => {
     console.log(obj, "status");
     if (obj && obj.flag === 0) {
@@ -38,8 +38,6 @@ router.post("/", (req, res, next) => {
 });
 
 async function signIn(email, password) {
-  await client.client.connect();
-
   var cursor = await client.client
     .db("expense_tracker")
     .collection("user_collection")
@@ -86,13 +84,12 @@ router.post("/signup", async (req, res, next) => {
     });
   } else {
     res.status(400).json({
-      error: "Account already exists",
+      error: "Account already exists for this email address",
     });
   }
 });
 
 async function signUp(obj) {
-  await client.client.connect();
   var result = 0;
 
   const cursor = await client.client
