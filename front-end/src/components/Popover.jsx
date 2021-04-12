@@ -68,7 +68,7 @@ function PopOver({
               Log out
             </Button>
           )}
-          {isLoggedIn ? null : <Redirect to='/login' />}
+          {isLoggedIn ? null : <Redirect to='/' />}
 
           <Button
             variant='contained'
