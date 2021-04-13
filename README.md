@@ -7,7 +7,6 @@ A web application developed in MERN to manage the income and expenses, thus help
 ![Expense](https://user-images.githubusercontent.com/49363110/109990435-65d00a80-7d2f-11eb-8dfe-ff1909a6e79d.png)
 
 1. JWT Verification
-2. Password Hashing
 
 Settings Schema:
 
