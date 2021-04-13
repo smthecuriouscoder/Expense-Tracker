@@ -80,7 +80,11 @@ class Settings extends Component {
             </Box>
 
             <Box mt={3}>
-              <Password email={this.props.location.state.email} setAlert={this.handleSnackOpen} />
+              <Password
+                userDetails={this.props.userDetails}
+                email={this.props.location.state.email}
+                setAlert={this.handleSnackOpen}
+              />
             </Box>
           </Container>
           <Snackbar

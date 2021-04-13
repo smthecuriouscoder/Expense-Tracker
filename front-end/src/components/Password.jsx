@@ -30,7 +30,7 @@ const formValid = (errors) => {
   return valid;
 };
 
-const Password = ({ className, email, setAlert, ...rest }) => {
+const Password = ({ className, userDetails, email, setAlert, ...rest }) => {
   const classes = useStyles();
   const [values, setValues] = useState({
     password: "",
@@ -107,6 +107,8 @@ const Password = ({ className, email, setAlert, ...rest }) => {
     }
   };
 
+  const isDisabled = userDetails.googleId ? true : false;
+
   return (
     <form className={clsx(classes.root, className)} {...rest}>
       <Card raised elevation={5}>
@@ -140,7 +142,7 @@ const Password = ({ className, email, setAlert, ...rest }) => {
         </CardContent>
         <Divider />
         <Box display='flex' justifyContent='flex-end' p={2}>
-          <Button color='primary' variant='contained' onClick={handleSubmit}>
+          <Button disabled={isDisabled} color='primary' variant='contained' onClick={handleSubmit}>
             Update
           </Button>
         </Box>

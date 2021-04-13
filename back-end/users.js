@@ -7,6 +7,7 @@ let transactions = []; //array to store all the transactions(income and expense)
 let filterArr = []; //array to store the sorted transactions of a particular month of a user
 let todayExpense = []; //array to store today expenses if any
 
+//to get the details(income and expense) of all the users to send via mail
 function getDetails() {
   getUsers().then((data) => {
     users = data;
@@ -23,7 +24,7 @@ function getDetails() {
   });
 }
 
-//to get the status whether the user has added any expenses or not
+//to get the status whether the user has added any expenses or not on the present day
 function getStatus() {
   getUsers().then((data) => {
     users = data;
@@ -57,6 +58,7 @@ async function getTodayExpenses(obj) {
   return results;
 }
 
+//to get all the users from the database
 async function getUsers() {
   const cursor = await client.client.db("expense_tracker").collection("user_collection").find({});
   const results = await cursor.toArray();
@@ -64,6 +66,7 @@ async function getUsers() {
   return results;
 }
 
+//to get the transactions of a user
 async function getTransactions(obj) {
   const cursor = await client.client
     .db("expense_tracker")
@@ -74,11 +77,13 @@ async function getTransactions(obj) {
   return results;
 }
 
+//to sort the income and expenses by date
 const sort = (incomeExpenseArray) =>
   incomeExpenseArray.sort(function (a, b) {
     return new Date(a.date) - new Date(b.date);
   });
 
+//to filter the income and expense array
 const filterArrayFx = (incomeExpenseArray, date) =>
   incomeExpenseArray.filter((obj) => {
     if (new Date(obj.date).getFullYear() === new Date(date).getFullYear()) {
