@@ -18,12 +18,10 @@ router.post("/", (req, res, next) => {
   };
   var jwt = nJwt.create(claims, signingKey);
 
-  var email = req.body.email;
-  var password = req.body.password;
+  var { email, password } = req.body;
 
   signIn(email, password).then((obj) => {
-    console.log(obj, "status");
-    if (obj && obj.flag === 0) {
+    if (obj && obj.isPasswordMatch === true) {
       res.status(200).json({
         token: jwt.compact(),
         status: "Success",
@@ -31,7 +29,7 @@ router.post("/", (req, res, next) => {
       });
     } else {
       res.status(400).json({
-        error: "Bad Request Sagar",
+        error: "Invalid email or password",
       });
     }
   });
@@ -41,24 +39,22 @@ async function signIn(email, password) {
   var cursor = await client.client
     .db("expense_tracker")
     .collection("user_collection")
-    .find({ email: email });
-  var found = await cursor.toArray();
-  found = found[0];
-  console.log(found, "found");
+    .findOne({ email: email });
 
-  let flag = 1;
+  var user = cursor;
+  console.log(user, "User");
+
   //the user has siged up already
-  if (found !== undefined) {
-    const isMatch = await bcrypt.compare(password, found.password);
+  if (user) {
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       console.log("Password doesn't match!");
 
-      return { flag: flag };
+      return { isPasswordMatch: false };
     } else {
-      flag = 0;
       console.log("Password matches!");
 
-      return { flag: flag, name: found.name, email: found.email, password: found.password };
+      return { isPasswordMatch: true, name: user.name, email: user.email };
     }
   }
 }
@@ -80,7 +76,7 @@ router.post("/signup", async (req, res, next) => {
     //1 record inserted
     res.status(200).json({
       status: "Success",
-      userDetails: obj,
+      userDetails: { name: obj.name, email: obj.email },
     });
   } else {
     res.status(400).json({

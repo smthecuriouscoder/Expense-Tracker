@@ -68,14 +68,22 @@ class App extends Component {
           <Route
             exact
             path='/dashboard'
-            render={(props) => (
-              <DashBoard
-                {...props}
-                isSignedIn={this.state.isSignedIn}
-                userDetails={this.state.user}
-                handleLogInStatus={this.handleLogInStatus}
-              />
-            )}
+            render={(props) =>
+              this.state.isSignedIn ? (
+                <DashBoard
+                  {...props}
+                  isSignedIn={this.state.isSignedIn}
+                  userDetails={this.state.user}
+                  handleLogInStatus={this.handleLogInStatus}
+                />
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: "/",
+                  }}
+                />
+              )
+            }
           />
           <Route
             exact

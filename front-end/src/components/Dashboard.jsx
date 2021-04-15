@@ -220,9 +220,9 @@ class DashBoard extends Component {
 
   handleSavingsClick = () => {
     //for showing the target savings dialog
-    const income = this.state.income.reduce((accumulator, currentValue) => {
-      return (accumulator += currentValue ? parseInt(currentValue.amount) : 0);
-    }, 0);
+    // const income = this.state.income.reduce((accumulator, currentValue) => {
+    //   return (accumulator += currentValue ? parseInt(currentValue.amount) : 0);
+    // }, 0);
 
     this.setState({
       showSavingsModal: true,

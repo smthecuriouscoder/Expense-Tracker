@@ -29,8 +29,6 @@ app.use(
 const loginRoutes = require("./api/routes/login");
 const etRoutes = require("./api/routes/etRoutes");
 
-// app.use("/products", productRoutes);
-
 app.use("/login", loginRoutes);
 app.use("/etRoutes", etRoutes);
 
