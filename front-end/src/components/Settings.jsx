@@ -70,7 +70,7 @@ class Settings extends Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Container maxWidth='lg'>
-            <Notifications setAlert={this.handleSnackOpen} />
+            <Notifications email={this.props.userDetails.email} setAlert={this.handleSnackOpen} />
             <Box mt={3}>
               <UpdateDetails
                 userDetails={this.props.userDetails}

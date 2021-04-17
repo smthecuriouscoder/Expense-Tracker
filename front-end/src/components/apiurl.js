@@ -2,6 +2,7 @@ export const apiurl = "http://localhost:1000/";
 
 export const signup = apiurl + "login/signup";
 export const login = apiurl + "login";
+export const updateSettings = apiurl + "login/updateSettings";
 
 export const incomeDialog = apiurl + "etroutes/incomeDialog";
 export const expenseDialog = apiurl + "etroutes/expenseDialog";

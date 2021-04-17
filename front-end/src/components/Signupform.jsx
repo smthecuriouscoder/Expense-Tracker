@@ -130,8 +130,8 @@ class SignUpForm extends Component {
             }
           );
         },
-        (error) => {
-          alert("Invalid email or password");
+        (err) => {
+          alert(err.response.data.error);
         }
       );
     }

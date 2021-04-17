@@ -92,8 +92,8 @@ const Password = ({ className, userDetails, email, setAlert, ...rest }) => {
           confirm: values.confirm,
         };
 
-        axios.post(updatePassword, object).then((data) => {
-          console.log(data.data);
+        axios.post(updatePassword, object).then((res) => {
+          console.log(res.data);
           setValues({
             ...values,
             password: "",

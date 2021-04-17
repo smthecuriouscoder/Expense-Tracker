@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import {
@@ -15,6 +15,8 @@ import {
   Typography,
   makeStyles,
 } from "@material-ui/core";
+import axios from "axios";
+import { updateSettings } from "./apiurl.js";
 
 const useStyles = makeStyles({
   root: {},
@@ -24,13 +26,27 @@ const useStyles = makeStyles({
   },
 });
 
-const Notifications = ({ className, setAlert, ...rest }) => {
+const Notifications = ({ className, email, setAlert, ...rest }) => {
   const classes = useStyles();
   const [state, setState] = React.useState({
     checkedEmail: false,
-    checkedNotify: true,
     checkedReport: true,
   });
+
+  //acts as ComponentDidMount
+  useEffect(() => {
+    axios.get(`${updateSettings}/${email}`).then(
+      (response) => {
+        setState({
+          checkedEmail: response.data.request.isEmailChecked,
+          checkedReport: response.data.request.isReportChecked,
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }, []);
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
@@ -38,7 +54,21 @@ const Notifications = ({ className, setAlert, ...rest }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setAlert("Saved Successfully");
+    axios
+      .put(updateSettings, {
+        email: email,
+        isEmailChecked: state.checkedEmail,
+        isReportChecked: state.checkedReport,
+      })
+      .then(
+        (response) => {
+          setAlert("Saved Successfully");
+        },
+        (error) => {
+          console.log(error);
+          alert("Some Error Occurred");
+        }
+      );
   };
 
   return (

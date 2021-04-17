@@ -21,15 +21,21 @@ router.post("/", (req, res, next) => {
   var { email, password } = req.body;
 
   signIn(email, password).then((obj) => {
-    if (obj && obj.isPasswordMatch === true) {
-      res.status(200).json({
-        token: jwt.compact(),
-        status: "Success",
-        userDetails: { name: obj.name, email: obj.email },
-      });
+    if (obj !== undefined) {
+      if (obj.isPasswordMatch === true) {
+        res.status(200).json({
+          token: jwt.compact(),
+          status: "Success",
+          userDetails: { name: obj.name, email: obj.email },
+        });
+      } else {
+        res.status(400).json({
+          error: "Invalid email or password",
+        });
+      }
     } else {
       res.status(400).json({
-        error: "Invalid email or password",
+        error: "Your email is not registered",
       });
     }
   });
@@ -45,7 +51,7 @@ async function signIn(email, password) {
   console.log(user, "User");
 
   //the user has siged up already
-  if (user) {
+  if (user && password) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       console.log("Password doesn't match!");
@@ -71,7 +77,7 @@ router.post("/signup", async (req, res, next) => {
   };
 
   var result = await signUp(obj);
-  console.log(result, "result");
+
   if (result === 1) {
     //1 record inserted
     res.status(200).json({
@@ -100,6 +106,7 @@ async function signUp(obj) {
       .db("expense_tracker")
       .collection("user_collection")
       .insertOne(obj);
+    createSettings(obj.email);
     result = 1;
   } else {
     result = 0;
@@ -107,6 +114,50 @@ async function signUp(obj) {
 
   return result;
 }
+
+async function createSettings(email) {
+  const obj = {
+    email: email,
+    isEmailChecked: false,
+    isReportChecked: true,
+  };
+
+  const cursor = await client.client
+    .db("expense_tracker")
+    .collection("user_settings_collection")
+    .insertOne(obj);
+
+  console.log(cursor.ops);
+}
+
+router.get("/updateSettings/:email", async (req, res) => {
+  var cursor = await client.client
+    .db("expense_tracker")
+    .collection("user_settings_collection")
+    .findOne({ email: req.params.email });
+  console.log(cursor);
+  res.status(200).json({
+    status: "Success",
+    request: cursor,
+  });
+});
+
+router.put("/updateSettings", async (req, res) => {
+  const { email, isEmailChecked, isReportChecked } = req.body;
+
+  var cursor = await client.client
+    .db("expense_tracker")
+    .collection("user_settings_collection")
+    .updateOne(
+      { email: email },
+      { $set: { isEmailChecked: isEmailChecked, isReportChecked: isReportChecked } }
+    );
+  console.log(cursor.modifiedCount);
+  res.status(200).json({
+    status: "Success",
+    request: req.body,
+  });
+});
 
 router.post("/verify", (req, res, next) => {
   try {

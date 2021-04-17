@@ -179,12 +179,17 @@ class SignInForm extends Component {
           console.log(res.data, "Result");
           alert("Account Created Successfully");
 
-          this.setState(() => {
-            return {
-              isSignedIn: true,
-            };
-          });
-          this.props.handleParentCallBack(this.state.isSignedIn, res.data.userDetails);
+          this.setState(
+            () => {
+              return {
+                isSignedIn: true,
+              };
+            },
+            () => {
+              this.props.handleParentCallBack(true, res.data.userDetails);
+            }
+          );
+          // this.props.handleParentCallBack(this.state.isSignedIn, res.data.userDetails);
         })
         .catch((err) => {
           console.log(err.response.data, "Error");

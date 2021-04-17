@@ -4,28 +4,29 @@ const router = express.Router();
 const cron = require("node-cron");
 const client = require("../../client.js");
 const { getDetails, getStatus } = require("../../users.js");
+const bcrypt = require("bcrypt");
 
-cron.schedule("15 11 * * *", function () {
-  getDetails();
-});
+// cron.schedule("0 0 1 * *", function () {
+//   getDetails();
+// });
 
-cron.schedule("0 21 * * *", function () {
-  getStatus();
-});
+// cron.schedule("0 21 * * *", function () {
+//   getStatus();
+// });
 
 router.get("/", (req, res, next) => {
   res.status(200).json({
-    messages: "Handling GET requests to /etRoutes",
+    message: "Handling GET requests to /etRoutes",
   });
 });
 
 router.post("/", (req, res, next) => {
   res.status(200).json({
-    messages: "Handling POST requests to /etRoutes",
+    message: "Handling POST requests to /etRoutes",
   });
 });
 
-router.post("/updatePassword", (req, res, next) => {
+router.post("/updatePassword", async (req, res, next) => {
   var obj = {
     email: req.body.email,
     password: req.body.password,
@@ -33,17 +34,31 @@ router.post("/updatePassword", (req, res, next) => {
   };
 
   if (obj.password == obj.confirm) {
+    const securePassword = await updatePassword(obj);
+
     res.status(200).json({
-      messages: "Handling Password Updation requests to /etRoutes",
-      password: req.body.password,
+      message: "Password Updated Successfully",
+      password: securePassword,
     });
   } else {
     res.status(400).json({
-      messages: "Gadbad",
+      message: "Passwords don't match",
       password: req.body.password,
     });
   }
 });
+
+async function updatePassword(obj) {
+  const saltPassword = await bcrypt.genSalt(10);
+  const securePassword = await bcrypt.hash(obj.password, saltPassword);
+
+  const cursor = await client.client
+    .db("expense_tracker")
+    .collection("user_collection")
+    .updateOne({ email: obj.email }, { $set: { password: securePassword } });
+  console.log(cursor.modifiedCount);
+  return securePassword;
+}
 
 router.post("/updateDetails", (req, res, next) => {
   res.status(200).json({
