@@ -12,14 +12,19 @@ function getDetails() {
   getUsers().then((data) => {
     users = data;
 
-    users.forEach((user) => {
-      getTransactions(user).then((data) => {
-        transactions = data;
+    users.forEach(async (user) => {
+      const settings = await getUserSettings(user.email);
+      if (settings.isReportChecked === true) {
+        getTransactions(user).then((data) => {
+          transactions = data;
 
-        filterArr = filterArrayFx(sort(transactions), new Date());
-        console.log("Sending monthly report to: ", user.email);
-        sendReportByEmail(user, filterArr);
-      });
+          filterArr = filterArrayFx(sort(transactions), new Date());
+          console.log("Sending monthly report to: ", user.email);
+          sendReportByEmail(user, filterArr);
+        });
+      } else {
+        console.log("Please enable report sending feature");
+      }
     });
   });
 }
@@ -29,16 +34,32 @@ function getStatus() {
   getUsers().then((data) => {
     users = data;
 
-    users.forEach((user) => {
-      getTodayExpenses(user).then((data) => {
-        todayExpense = data;
-        console.log("Expenses for today", todayExpense);
-        if (!todayExpense.length) {
-          sendNotificationByEmail(user);
-        }
-      });
+    users.forEach(async (user) => {
+      const settings = await getUserSettings(user.email);
+      if (settings.isEmailChecked === true) {
+        getTodayExpenses(user).then((data) => {
+          todayExpense = data;
+          console.log("Expenses for today", todayExpense);
+          if (!todayExpense.length) {
+            sendNotificationByEmail(user);
+          }
+        });
+      } else {
+        console.log("Please enable add expenses reminder feature");
+      }
     });
   });
+}
+
+async function getUserSettings(email) {
+  const cursor = await client.client
+    .db("expense_tracker")
+    .collection("user_settings_collection")
+    .findOne({
+      email: email,
+    });
+
+  return cursor;
 }
 
 async function getTodayExpenses(obj) {
