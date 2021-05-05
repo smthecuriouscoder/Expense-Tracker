@@ -1,0 +1,25 @@
+.footer {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 50px 20px 50px 20px;
+  border-top: 1px solid black;
+  background: #212531;
+  color: white;
+}
+
+.footerHeader {
+  width: 100%;
+  text-align: center;
+}
+
+.footer a {
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+}
+
+.address {
+  padding: 20px;
+}
