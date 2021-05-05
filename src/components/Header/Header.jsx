@@ -173,22 +173,6 @@ export default function Header() {
   return (
     <div className={classes.root}>
       <AppBar position='static' className={classes.appBar}>
-        {/*<Toolbar>
-          <div className={classes.btnContainer}>
-            <Button color='inherit' className={classes.btn}>
-              Home
-            </Button>
-            <Button color='inherit' className={classes.btn}>
-              About
-            </Button>
-            <Button color='inherit' className={classes.btn}>
-              Contact Us
-            </Button>
-            <Button color='inherit' className={classes.btn}>
-              Login
-            </Button>
-          </div>
-        </Toolbar> */}
         {mobileView ? displayMobile() : displayDesktop()}
       </AppBar>
     </div>
