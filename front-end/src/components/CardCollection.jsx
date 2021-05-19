@@ -67,7 +67,6 @@ function CardCollection({ income, expenses, estimatedSavings }) {
             </Typography>
             <div className={cssstyles.incExpContainer}>
               <div className={cssstyles.handleOverflow}>
-                {/* <h4 className={cssstyles.incomeRs}>Income</h4> */}
                 <Typography variant='subtitle1'>INCOME</Typography>
                 <p className={`${cssstyles.money} ${cssstyles.plus}`}>Rs. {totalIncome}</p>
               </div>

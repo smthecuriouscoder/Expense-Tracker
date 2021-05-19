@@ -27,10 +27,11 @@ class App extends Component {
   };
 
   handleUpdateUserDetails = (data) => {
+    console.log("Called");
     this.setState({
       user: {
         ...this.state.user,
-        //email: data.email,
+        email: data.email,
       },
     });
     sessionStorage.setItem("user", JSON.stringify(this.state.user));

@@ -60,12 +60,41 @@ async function updatePassword(obj) {
   return securePassword;
 }
 
-router.post("/updateDetails", (req, res, next) => {
+router.post("/updateDetails", async (req, res, next) => {
+  var obj = {
+    currEmail: req.body.currEmail,
+    updEmail: req.body.updEmail,
+  };
+
+  await updateDetails(obj);
   res.status(200).json({
     status: "Success",
     request: req.body,
   });
 });
+
+async function updateDetails(obj) {
+  const cursor1 = await client.client
+    .db("expense_tracker")
+    .collection("user_collection")
+    .updateOne({ email: obj.currEmail }, { $set: { email: obj.updEmail } });
+  console.log(cursor1.modifiedCount);
+
+  const cursor2 = await client.client
+    .db("expense_tracker")
+    .collection("user_settings_collection")
+    .updateOne({ email: obj.currEmail }, { $set: { email: obj.updEmail } });
+  console.log(cursor2.modifiedCount);
+
+  const cursor3 = await client.client
+    .db("expense_tracker")
+    .collection("expense_collection")
+    .updateMany(
+      { created_by: obj.currEmail },
+      { $set: { created_by: obj.updEmail, modified_by: obj.updEmail } }
+    );
+  console.log(cursor3.modifiedCount);
+}
 
 router.post("/incomeDialogGet", (req, res, next) => {
   var obj = {
@@ -242,10 +271,6 @@ async function deleteData(object) {
     .collection("expense_collection")
     .deleteOne(object)
     .then((result) => console.log(`Deleted ${result.deletedCount} item.`));
-}
-
-async function updateDetails() {
-  await client.client.db("expense_tracker").collection("user_collection").updateOne();
 }
 
 async function getExpense(object) {

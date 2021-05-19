@@ -40,7 +40,8 @@ const UpdateDetails = ({ className, userDetails, handleUpdateUserDetails, setAle
     } else {
       const object = {
         name: values.name,
-        email: values.email,
+        currEmail: userDetails.email,
+        updEmail: values.email,
       };
       axios.post(updateDetails, object).then((data) => {
         handleUpdateUserDetails({ email: values.email });
