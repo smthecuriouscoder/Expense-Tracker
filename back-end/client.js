@@ -1,7 +1,8 @@
 const { MongoClient } = require("mongodb");
+require("dotenv").config();
 const constants = {
-  userName: "mayank",
-  password: "Fkyvhn@24",
+  userName: process.env.DBUSERNAME,
+  password: process.env.DBPASS,
   db_xero: "db_xero",
 };
 const uri = `mongodb+srv://${constants.userName}:${constants.password}@cluster0.png3e.mongodb.net/${constants.db_xero}`;
