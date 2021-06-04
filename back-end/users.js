@@ -36,6 +36,7 @@ function getStatus() {
 
     users.forEach(async (user) => {
       const settings = await getUserSettings(user.email);
+      console.log(settings);
       if (settings.isEmailChecked === true) {
         getTodayExpenses(user).then((data) => {
           todayExpense = data;

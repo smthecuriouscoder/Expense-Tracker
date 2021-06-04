@@ -6,13 +6,13 @@ const client = require("../../client.js");
 const { getDetails, getStatus } = require("../../users.js");
 const bcrypt = require("bcrypt");
 
-// cron.schedule("0 0 1 * *", function () {
-//   getDetails();
-// });
+cron.schedule("0 0 1 * *", function () {
+  getDetails();
+});
 
-// cron.schedule("0 21 * * *", function () {
-//   getStatus();
-// });
+cron.schedule("0 21 * * *", function () {
+  getStatus();
+});
 
 router.get("/", (req, res, next) => {
   res.status(200).json({

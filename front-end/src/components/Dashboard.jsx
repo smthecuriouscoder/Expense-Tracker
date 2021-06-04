@@ -17,7 +17,6 @@ import cssstyles from "../styles/Dashboard.module.css";
 import axios from "axios";
 import { incomeDialogGet, expenseDialogGet, estimatedSavingsDialogGet } from "./apiurl.js";
 import { filterArrayByType } from "./getData.js";
-//import { sendEmail } from './apiurl.jsx';
 
 const styles = (theme) => ({
   root: {
