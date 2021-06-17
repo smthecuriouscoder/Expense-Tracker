@@ -30,6 +30,7 @@ class DailyData extends Component {
       incomeExpenseArrayFx([], this.props.expenses),
       this.state.date
     );
+
     const noOfDays = new Date(
       Number(this.state.date.substr(12, 4)),
       new Date(this.state.date).getMonth() + 1,
@@ -65,9 +66,9 @@ class DailyData extends Component {
           new Date(filterIncomeArray[i].date).getDate() ===
           new Date(filterIncomeArray[i - 1].date).getDate()
         ) {
-          incomeDataArray.pop();
+          let e = incomeDataArray.pop();
           incomeDataArray.push({
-            amount: +filterIncomeArray[i - 1].amount + +filterIncomeArray[i].amount,
+            amount: +e.amount + +filterIncomeArray[i].amount,
             date: new Date(filterIncomeArray[i].date).getDate(),
           });
         } else {
@@ -90,9 +91,9 @@ class DailyData extends Component {
           new Date(filterExpenseArray[i].date).getDate() ===
           new Date(filterExpenseArray[i - 1].date).getDate()
         ) {
-          expenseDataArray.pop();
+          let e = expenseDataArray.pop();
           expenseDataArray.push({
-            amount: +filterExpenseArray[i - 1].amount + +filterExpenseArray[i].amount,
+            amount: +e.amount + +filterExpenseArray[i].amount,
             date: new Date(filterExpenseArray[i].date).getDate(),
           });
         } else {
